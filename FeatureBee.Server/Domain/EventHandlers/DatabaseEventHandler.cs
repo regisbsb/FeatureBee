@@ -93,6 +93,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
                 feature.AddCondition(condition.Type);
             }
+
             if (@event.Body is FeatureConditionValuesAddedEvent)
             {
                 try
@@ -107,6 +108,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
                     throw;
                 }
             }
+
             if (@event.Body is FeatureConditionValuesRemovedEvent)
             {
                 var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesRemovedEvent);

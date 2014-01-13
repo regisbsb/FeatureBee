@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
 
     public class FeatureViewModel
@@ -22,45 +21,5 @@
             if (Conditions.Any(_ => _.Type == type)) return;
             Conditions.Add(new ConditionViewModel() { Type = type, Values = new List<ConditionValueViewModel>() });
         }
-    }
-
-    public class ConditionViewModel
-    {
-        [Key]
-        public string Type { get; set; }
-        public virtual List<ConditionValueViewModel> Values { get; set; }
-        
-        public void AddValue(string value)
-        {
-            var model = new ConditionValueViewModel(value);
-            if (Values.Any(v => v.Value == model.Value)) return;
-            Values.Add(model);
-        }
-
-        public void RemoveValue(string value)
-        {
-            var model = new ConditionValueViewModel(value);
-            if (Values.Any(v => v.Value == model.Value)) return;
-            Values.Remove(model);
-        }
-    }
-
-    public class ConditionValueViewModel
-    {
-        public ConditionValueViewModel()
-        {
-            Id = Guid.NewGuid();
-        }
-
-        public ConditionValueViewModel(string value)
-            : this()
-        {
-            this.Value = value;
-        }
-
-        [Key]
-        public Guid Id { get; set; }
-
-        public string Value { get; set; }
     }
 }
