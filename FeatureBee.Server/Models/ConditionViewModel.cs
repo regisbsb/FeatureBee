@@ -19,9 +19,8 @@
 
         public void RemoveValue(string value)
         {
-            var model = new ConditionValueViewModel(value);
-            if (this.Values.Any(v => v.Value == model.Value)) return;
-            this.Values.Remove(model);
+            if (this.Values.All(v => v.Value != value)) return;
+            this.Values.Remove(this.Values.Single(_ => _.Value == value));
         }
     }
 }

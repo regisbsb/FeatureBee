@@ -96,17 +96,9 @@ namespace FeatureBee.Server.Domain.EventHandlers
 
             if (@event.Body is FeatureConditionValuesAddedEvent)
             {
-                try
-                {
-                    var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesAddedEvent);
-                    var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
-                    feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).AddValue(featureConditionValuesAddedEvent.Value);
-                }
-                catch (Exception e0)
-                {
-                    Console.WriteLine(e0);
-                    throw;
-                }
+                var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesAddedEvent);
+                var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
+                feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).AddValue(featureConditionValuesAddedEvent.Value);
             }
 
             if (@event.Body is FeatureConditionValuesRemovedEvent)
