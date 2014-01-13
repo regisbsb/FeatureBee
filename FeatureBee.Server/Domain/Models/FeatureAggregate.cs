@@ -8,11 +8,10 @@
 
     public class FeatureAggregate : BaseAggregateRoot
     {
+        private List<Condition> conditions;
         private string featureDescription;
         private string featureLinkToTicket;
         private string featureName;
-
-        private List<Condition> conditions;
 
         private FeatureAggregate()
         {
@@ -52,7 +51,7 @@
 
         public void LinkToTicket(string link)
         {
-            if (featureLinkToTicket.Equals(link))
+            if ((featureLinkToTicket ?? "").Equals(link))
             {
                 return;
             }
@@ -87,7 +86,7 @@
 
         public void AddCondition(string type)
         {
-            Apply(new FeatureConditionCreatedEvent(featureName, new Condition() { Type = type }));
+            Apply(new FeatureConditionCreatedEvent(featureName, new Condition {Type = type}));
         }
 
         public void AddValuesToCondition(string type, string[] values)
@@ -135,12 +134,12 @@
 
         private void OnFeatureConditionAdded(FeatureConditionCreatedEvent @event)
         {
-            if (this.conditions.Any(_ => _.Type == @event.Condition.Type))
+            if (conditions.Any(_ => _.Type == @event.Condition.Type))
             {
                 return;
             }
 
-            this.conditions.Add(@event.Condition);
+            conditions.Add(@event.Condition);
         }
 
         private void OnFeatureConditionValuesAdded(FeatureConditionValuesAddedEvent @event)
@@ -185,5 +184,4 @@
         {
         }
     }
-
 }
