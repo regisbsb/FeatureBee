@@ -210,6 +210,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\DIConfiguration.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="ConfigSection\ConfigurationElementCollection.cs" />
+    <Compile Include="ConfigSection\FeatureBeeConfig.cs" />
     <Compile Include="Controllers\BoardHub.cs" />
     <Compile Include="Controllers\BoardHubSpecs.cs">
       <DependentUpon>BoardHub.cs</DependentUpon>
