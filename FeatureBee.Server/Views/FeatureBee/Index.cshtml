@@ -1,5 +1,5 @@
 ﻿@using System.Web.Optimization
-@model dynamic
+@model FeatureBee.Server.Models.FeatureBeeEnvironmentViewModel
 
 @{
     ViewBag.Title = "Feature Bee";
@@ -20,6 +20,15 @@
             <h1>FeatureBoard</h1>
         </div>
         <div class="col-lg-6">
+            <div class="row" style="margin-top: 42px;">
+                <label class="col-lg-2 control-label">Teamfilter:</label>
+                <div class="col-lg-10 btn-group">
+                    @foreach (var team in Model.Teams)
+                    {
+                        <a href="#" data-filter-team="@team" class="btn btn-default btn-xs" style="pointer-events:all; cursor: pointer;">@team</a>
+                    }
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -37,6 +46,6 @@
                 }
             }
         </div>
-        @Html.Partial("~/Views/Feature/EditTemplate.cshtml")
+        @Html.Partial("~/Views/Feature/EditTemplate.cshtml", Model)
     </div>
 </div>

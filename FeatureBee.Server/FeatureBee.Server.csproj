@@ -265,6 +265,7 @@
     <Compile Include="Models\ConditionValueViewModel.cs" />
     <Compile Include="Models\ConditionViewModel.cs" />
     <Compile Include="Models\FeatureBeeContext.cs" />
+    <Compile Include="Models\FeatureBeeEnvironmentViewModel.cs" />
     <Compile Include="Models\FeatureViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿<div data-edit-item="new" class="template">
+﻿@model FeatureBee.Server.Models.FeatureBeeEnvironmentViewModel
+<div data-edit-item="new" class="template">
     <div class="row">
         <form class="form-horizontal">
             <input type="hidden" id="id" name="id" value="{{id}}">
@@ -16,11 +17,10 @@
                         <label for="team" class="col-lg-2 control-label">Team</label>
                         <div class="col-lg-10">
                             <select class="form-control" id="team" name="team">
-                                {{#select team}}
-                                <option value="dealer">dealer</option>
-                                <option value="asm">asm</option>
-                                <option value="all">all</option>
-                                {{/select}}
+                                @foreach (var team in Model.Teams)
+                                {
+                                    <option value="@team">@team</option>
+                                }
                             </select>
                         </div>
                     </div>
