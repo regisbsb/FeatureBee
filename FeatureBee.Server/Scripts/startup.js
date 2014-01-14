@@ -134,17 +134,20 @@
             templates.renderAddNewCondition(name);
             return "";
         });
+        window.Handlebars.registerHelper('editExisting', function (name) {
+            return name == "edit";
+        });
     };
 
     var forms = function () {
         var self = this;
 
-        var createForm = function (usingItem, callback) {
+        var createForm = function (usingItem, withWidth, callback) {
             return usingItem.clone().appendTo(usingItem.parent()).formify({
                 save: function (data) {
                     callback(data);
                 },
-                width: $(window).width() - 180,
+                width: withWidth,
                 source: function(feature) {
                     var data = null;
                     jQuery.ajaxSetup({ async: false });
@@ -152,14 +155,14 @@
                         data = d;
                     });
                     jQuery.ajaxSetup({ async: true });
-
                     return data;
                 }
             });
         };
 
         var createEditForm = function (usingItem) {
-            return createForm(usingItem, function(data) {
+            return createForm(usingItem, $(window).width() - 180,
+            function(data) {
                 editPanelHub.server.editItem(
                 {
                     name: data.name,
@@ -171,7 +174,7 @@
         };
 
         var createNewForm = function (usingItem) {
-            return createForm(usingItem, function (data) {
+            return createForm(usingItem, $(window).width() / 2, function (data) {
                 boardHub.server.addNewItem(
                     {
                         name: data.name,
@@ -183,9 +186,8 @@
             });
         };
 
-        var editItem = $('[data-edit-item="edit"]');
-        var formEdit = createEditForm(editItem);
-        var formNew = createNewForm(editItem);
+        var formEdit = createEditForm($('[data-edit-item="edit"]'));
+        var formNew = createNewForm($('[data-edit-item="new"]'));
 
         this.openEdit = function (data) {
             formEdit.formify('open', data);
