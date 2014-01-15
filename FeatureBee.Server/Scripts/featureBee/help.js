@@ -24,7 +24,7 @@
                     position = { my: 'left center', at: 'right+10 center' };
                     break;
             }
-            position.collision = 'none';
+            position.collision = 'flip';
             return position;
         },
 

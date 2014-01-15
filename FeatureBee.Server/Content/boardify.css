@@ -46,6 +46,7 @@
     padding: 0;
     opacity: 1;
     background-color: #eeeeee;
+    max-width: 300px;
 }
 .ui-tooltip-content {
     position: relative;
