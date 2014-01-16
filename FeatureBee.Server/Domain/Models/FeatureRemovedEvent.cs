@@ -6,6 +6,10 @@
 
     public class FeatureRemovedEvent: IDomainEvent
     {
+        public FeatureRemovedEvent()
+        {
+        }
+
         public Guid AggregateId { get; set; }
         public int Version { get; set; }
         public string Name { get; set; }

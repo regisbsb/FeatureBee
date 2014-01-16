@@ -227,6 +227,7 @@
     <Compile Include="Domain\ApplicationServices\AddValueToConditionCommand.cs" />
     <Compile Include="Domain\ApplicationServices\ChangeFeatureConditionsCommand.cs" />
     <Compile Include="Domain\ApplicationServices\CreateFeatureCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\DeleteFeatureCommand.cs" />
     <Compile Include="Domain\ApplicationServices\FeatureApplicationServices.cs" />
     <Compile Include="Domain\ApplicationServices\ICommand.cs" />
     <Compile Include="Domain\ApplicationServices\ICommandHandler.cs" />
@@ -280,6 +281,7 @@
     <Content Include="Content\images\animated-overlay.gif" />
     <Content Include="Content\images\line.png" />
     <Content Include="Content\images\logo.png" />
+    <Content Include="Content\images\Trash_bin.png" />
     <Content Include="Content\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Content\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <Content Include="Content\images\ui-bg_flat_10_000000_40x100.png" />

@@ -100,6 +100,11 @@
             Apply(new FeatureConditionValuesRemovedEvent(featureName, type, values));
         }
 
+        public void Delete()
+        {
+            Apply(new FeatureRemovedEvent());
+        }
+
         private void RegisterEvents()
         {
             RegisterEvent<FeatureCreatedEvent>(OnFeatureCreated);

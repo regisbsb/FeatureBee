@@ -19,7 +19,8 @@
         ICommandHandler<LinkToTicketCommand>,
         ICommandHandler<NewConditionCommand>,
         ICommandHandler<AddValueToConditionCommand>,
-        ICommandHandler<RemoveValueFromConditionCommand>
+        ICommandHandler<RemoveValueFromConditionCommand>,
+        ICommandHandler<DeleteFeatureCommand>
     {
         private readonly IDomainRepository repository;
         private readonly FeatureBeeContext featureBeeContext = new FeatureBeeContext();
@@ -32,6 +33,13 @@
         public void Execute(CreateFeatureCommand command)
         {
             var aggregate = FeatureAggregate.CreateNew(command.Name, command.Description, command.Team, command.Link, command.Conditions);
+            repository.Save(aggregate);
+        }
+        
+        public void Execute(DeleteFeatureCommand command)
+        {
+            var aggregate = LoadAggregate(command.Name);
+            aggregate.Remove();
             repository.Save(aggregate);
         }
 

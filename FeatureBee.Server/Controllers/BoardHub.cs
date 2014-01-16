@@ -1,6 +1,7 @@
 ﻿namespace FeatureBee.Server.Controllers
 {
     using System;
+    using System.Collections.Specialized;
 
     using FeatureBee.Server.Domain.ApplicationServices;
     using FeatureBee.Server.Domain.Infrastruture;
@@ -35,6 +36,10 @@
 
                 case 2:
                     commandSender.Send(new ReleaseFeatureForEveryoneCommand(name));
+                    break;
+
+                case 3:
+                    commandSender.Send(new DeleteFeatureCommand(name));
                     break;
 
                 default:
