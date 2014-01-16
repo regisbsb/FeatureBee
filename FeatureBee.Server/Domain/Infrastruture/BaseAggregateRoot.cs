@@ -36,7 +36,7 @@ namespace FeatureBee.Server.Domain.Infrastruture
                 apply(domainEvent.GetType(), domainEvent);
             }
 
-            Version = domainEvents.Last().Version;
+            Version = domainEvents.Count();
             EventVersion = Version;
         }
 
