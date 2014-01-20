@@ -17,6 +17,13 @@ The client is the application where you implement the features. The features are
       ViewBag.Message = "Congratulations!";
     }
 
+You can unit test this by injecting your own evaluator: 
+
+    Feature.InjectEvaluator(featureName => true);
+    if (Feature.IsEnabled("My Feature")) // always true
+    {
+      ViewBag.Message = "Congratulations!";
+    }
 
 ## Feature Bee Server 
 
