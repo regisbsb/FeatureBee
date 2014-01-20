@@ -29,11 +29,11 @@
     cursor: pointer;
 }
 
-.asm {
+.ASM.Garage {
     background-color: #ff9900;
 }
 
-.dealer {
+.Dealer {
     background-color: #ffcc00;
 }
 

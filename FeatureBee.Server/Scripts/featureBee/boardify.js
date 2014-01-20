@@ -74,6 +74,7 @@ $(function () {
             var states = ele.find(self.options.states);
             states.each(function (i, state) {
                 $(state).droppable({
+                    accept: '.post-it',
                     drop: function (ev, ui) {
                         self.dropElementTo(ui.draggable, this, i);
                     }
