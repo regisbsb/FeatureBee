@@ -61,7 +61,7 @@
             Establish context = () =>
             {
                 feature.State = "Under Test";
-                feature.Conditions.Add(new ConditionDto { Type = condition, Values = new[] { "never" } });
+                feature.Conditions.Add(new ConditionDto { Type = condition, Values = new List<string> { "never" } });
             };
 
             Because of = () => featureState = Subject.IsEnabled(featureName);
@@ -76,7 +76,7 @@
             Establish context = () =>
             {
                 feature.State = "Under Test";
-                feature.Conditions.Add(new ConditionDto { Type = condition, Values = new[] { "always" } });
+                feature.Conditions.Add(new ConditionDto { Type = condition, Values = new List<string> { "always" } });
             };
 
             Because of = () => featureState = Subject.IsEnabled(featureName);

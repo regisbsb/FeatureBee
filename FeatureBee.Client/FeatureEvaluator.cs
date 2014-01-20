@@ -49,7 +49,7 @@ namespace FeatureBee
                     return false;
                 }
 
-                isFulfilled = evaluator.IsFulfilled(condition.Values);
+                isFulfilled = evaluator.IsFulfilled(condition.Values.ToArray());
                 if (!isFulfilled)
                 {
                     return false;
