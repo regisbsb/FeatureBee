@@ -8,10 +8,26 @@ FeatureBee
 3. Make your changes (in it´s own branch)
 4. Send PullRequest
 
+## Feature Bee Client
+
+The client is the application where you implement the features. The features are toggled in an IF-Statement:
+
+    if (Feature.IsEnabled("My Feature"))
+    {
+      ViewBag.Message = "Congratulations!";
+    }
+
+
 ## Feature Bee Server 
+
+The Server distributes the feature state to all registered clients, and is the ui for however is editing the feature state.
 
 ![Feature Bee Server](https://github.com/AutoScout24/FeatureBee/raw/master/documentation/images/Feature%20Bee%20-%20Server.png)
 
 ## Feature Bee TrayIcon
 
+The TrayIcon is displayed on the page, and can be used to turn features off and on for the current user.
+
 ![Feature Bee Tray](https://github.com/AutoScout24/FeatureBee/raw/master/documentation/images/Feature%20Bee%20-%20Tray%20Icon.png)
+
+
