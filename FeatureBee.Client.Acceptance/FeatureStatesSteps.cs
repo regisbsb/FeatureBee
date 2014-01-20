@@ -1,21 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Web;
-using FeatureBee.Evaluators;
-using FeatureBee.WireUp;
-using Moq;
-using NUnit.Framework;
-using TechTalk.SpecFlow;
-
-namespace FeatureBee.Acceptance
+﻿namespace FeatureBee.Acceptance
 {
+    using System.Collections.Generic;
+    using System.Web;
+
+    using FeatureBee.Evaluators;
+    using FeatureBee.WireUp;
+
+    using Moq;
+
+    using NUnit.Framework;
+
+    using TechTalk.SpecFlow;
+
     [Binding]
     public class FeatureStatesSteps
     {
-        private bool _featureIsEnabled;
-        private readonly Mock<IFeatureRepository> _featureRepositoryMock = new Mock<IFeatureRepository>();
         private readonly Mock<IConditionEvaluator> _conditionEvaluatorsMock = new Mock<IConditionEvaluator>();
         private readonly Mock<IConditionEvaluator> _conditionEvaluatorsMock2 = new Mock<IConditionEvaluator>();
+        private readonly Mock<IFeatureRepository> _featureRepositoryMock = new Mock<IFeatureRepository>();
         private readonly HttpContextBase _httpContextMock = HttpFakes.FakeHttpContext();
+        private bool _featureIsEnabled;
 
         [Given(@"I have feature with a condition evaluator that is always fullfilled")]
         public void GivenIHaveFeatureWithAConditionEvaluatorThatIsAlwaysFullfilled()
@@ -36,20 +40,20 @@ namespace FeatureBee.Acceptance
 
             FeatureBeeBuilder
                 .ForWebApp(() => _httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object });
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object});
         }
 
         [Given(@"I have feature under test with a condition evaluator")]
         public void GivenIHaveFeatureUnderTestWithAConditionEvaluator()
         {
-            var conditions = new List<ConditionDto> { new ConditionDto { Type = "FakeEvaluator", Values = null } };
+            var conditions = new List<ConditionDto> {new ConditionDto {Type = "FakeEvaluator"}};
             _featureRepositoryMock.Setup(x => x.GetFeatures())
-                .Returns(new List<FeatureDto>() { new FeatureDto { Name = "SampleFeature", State = "Under Test", Conditions = conditions } });
+                .Returns(new List<FeatureDto> {new FeatureDto {Name = "SampleFeature", State = "Under Test", Conditions = conditions}});
             _conditionEvaluatorsMock.Setup(x => x.Name).Returns("FakeEvaluator");
 
             FeatureBeeBuilder
                 .ForWebApp(() => _httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object });
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object});
         }
 
         [Given(@"the condition is (.*)")]
@@ -61,9 +65,9 @@ namespace FeatureBee.Acceptance
         [Given(@"I have a feature in state (.*)")]
         public void GivenIHaveAFeatureInState(string featureState)
         {
-            var conditions = new List<ConditionDto> { new ConditionDto { Type = "FakeEvaluator", Values = null } };
+            var conditions = new List<ConditionDto> {new ConditionDto {Type = "FakeEvaluator"}};
             _featureRepositoryMock.Setup(x => x.GetFeatures())
-                .Returns(new List<FeatureDto>() { new FeatureDto { Name = "SampleFeature", State = featureState, Conditions = conditions } });
+                .Returns(new List<FeatureDto> {new FeatureDto {Name = "SampleFeature", State = featureState, Conditions = conditions}});
         }
 
         [Given(@"the feature has a second condition evaluator")]
@@ -71,11 +75,11 @@ namespace FeatureBee.Acceptance
         {
             var conditions = new List<ConditionDto>
             {
-                new ConditionDto { Type = "FakeEvaluator", Values = null },
-                new ConditionDto { Type = "FakeEvaluator2", Values = null }
+                new ConditionDto {Type = "FakeEvaluator"},
+                new ConditionDto {Type = "FakeEvaluator2"}
             };
             _featureRepositoryMock.Setup(x => x.GetFeatures())
-                .Returns(new List<FeatureDto>()
+                .Returns(new List<FeatureDto>
                 {
                     new FeatureDto {Name = "SampleFeature", State = "Under Test", Conditions = conditions}
                 });
@@ -83,7 +87,7 @@ namespace FeatureBee.Acceptance
 
             FeatureBeeBuilder
                 .ForWebApp(() => _httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> { _conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object });
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object});
         }
 
         [Given(@"the first condition evaluator returns (.*)")]
