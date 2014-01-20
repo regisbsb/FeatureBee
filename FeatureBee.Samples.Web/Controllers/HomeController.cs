@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace FeatureBee.Samples.Web.Controllers
 {
@@ -10,10 +6,12 @@ namespace FeatureBee.Samples.Web.Controllers
     {
         public ActionResult Index()
         {
+            Feature.InjectEvaluator(featureName => true);
             if (Feature.IsEnabled("PMVM-1150 Booking Overview"))
             {
                 ViewBag.Message = "Congratulations. You passed FeatureBee´s conditions";
             }
+
             return View();
         }
 
