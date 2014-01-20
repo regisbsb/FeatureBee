@@ -1,8 +1,9 @@
-using System.Collections.Generic;
-using FeatureBee.Evaluators;
-
 namespace FeatureBee.WireUp
 {
+    using System.Collections.Generic;
+
+    using FeatureBee.Evaluators;
+
     internal class WindowsApplicationContext : IFeatureBeeContext
     {
         public WindowsApplicationContext()
@@ -16,5 +17,6 @@ namespace FeatureBee.WireUp
         public List<string> GodModeFeatures { get; private set; }
         public bool IsDebugMode { get; private set; }
         public bool ShowTrayIconOnPages { get; set; }
+        public string TrafficDistributionCookie { get; set; }
     }
 }

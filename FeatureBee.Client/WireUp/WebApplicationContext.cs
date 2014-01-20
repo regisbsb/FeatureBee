@@ -18,6 +18,7 @@ namespace FeatureBee.WireUp
         public List<IConditionEvaluator> Evaluators { get; set; }
         public IFeatureRepository FeatureRepository { get; set; }
         public bool ShowTrayIconOnPages { get; set; }
+        public string TrafficDistributionCookie { get; set; }
 
         public bool IsDebugMode
         {

@@ -21,7 +21,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 try
                 {
                     var body = @event.Body as FeatureCreatedEvent;
-                    var conditions = body.Conditions.Select(c => new ConditionViewModel { Type = c.Type, Values = c.Values.Select(_ => new ConditionValueViewModel(_)).ToList() });
+                    var conditions = body.Conditions.Select(c => new ConditionViewModel {Type = c.Type, Values = new PersistableStringCollection(c.Values)});
 
                     var conditionList = conditions.ToList();
 
@@ -60,7 +60,9 @@ namespace FeatureBee.Server.Domain.EventHandlers
             {
                 var body = @event.Body as FeatureConditionsChangedEvent;
                 var feature = context.Features.Find(domainEvent.AggregateId);
-                feature.Conditions = body.Conditions.Select(c => new ConditionViewModel { Type = c.Type, Values = c.Values.Select(_ => new ConditionValueViewModel(_)).ToList() }).ToList();
+                feature.Conditions =
+                    body.Conditions.Select(c => new ConditionViewModel {Type = c.Type, Values = new PersistableStringCollection(c.Values)})
+                        .ToList();
             }
 
             if (@event.Body is FeatureReleasedForEveryoneEvent)
@@ -98,14 +100,14 @@ namespace FeatureBee.Server.Domain.EventHandlers
             {
                 var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesAddedEvent);
                 var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
-                feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).AddValue(featureConditionValuesAddedEvent.Value);
+                feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).Values.Add(featureConditionValuesAddedEvent.Value);
             }
 
             if (@event.Body is FeatureConditionValuesRemovedEvent)
             {
                 var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesRemovedEvent);
                 var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
-                feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).RemoveValue(featureConditionValuesAddedEvent.Value);
+                feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).Values.Remove(featureConditionValuesAddedEvent.Value);
             }
 
             context.SaveChanges();

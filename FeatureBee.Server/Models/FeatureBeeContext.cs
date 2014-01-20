@@ -20,10 +20,10 @@ namespace FeatureBee.Server.Models
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            modelBuilder.Entity<ConditionViewModel>()
-                .HasMany(x => x.Values)
-                .WithRequired()
-                .WillCascadeOnDelete(true);
+            //modelBuilder.Entity<ConditionViewModel>()
+            //    .HasMany(x => x.Values)
+            //    .WithRequired()
+            //    .WillCascadeOnDelete(true);
 
             modelBuilder.Entity<FeatureViewModel>()
                 .HasMany(x => x.Conditions)

@@ -79,6 +79,8 @@
     <Compile Include="FeatureEvaluatorSpecs.cs">
       <DependentUpon>FeatureEvaluator.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigSection\FeatureBeeSettingsConfig.cs" />
+    <Compile Include="Evaluators\TrafficDistributionConditionEvaluator.cs" />
     <Compile Include="WireUp\ConditionDto.cs" />
     <Compile Include="ConfigSection\FeatureBeeConfiguration.cs" />
     <Compile Include="ConfigSection\FeatureBeeServerConfig.cs" />

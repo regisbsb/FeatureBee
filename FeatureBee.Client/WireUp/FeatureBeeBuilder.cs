@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using FeatureBee.ConfigSection;
-using FeatureBee.Evaluators;
-
-namespace FeatureBee.WireUp
+﻿namespace FeatureBee.WireUp
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+
+    using FeatureBee.ConfigSection;
+    using FeatureBee.Evaluators;
+
     public class FeatureBeeBuilder
     {
-        internal static IFeatureBeeContext Context { get; private set; }
-
         private FeatureBeeBuilder(IFeatureBeeContext context)
         {
             Context = context;
             Context.Evaluators = LoadConditionEvaluators();
         }
+
+        internal static IFeatureBeeContext Context { get; private set; }
 
         public static FeatureBeeBuilder ForWebApp(Func<HttpContextBase> httpContextFunc)
         {
@@ -51,21 +52,22 @@ namespace FeatureBee.WireUp
             Context.FeatureRepository = new PullFeatureRepository(config.Server.Url);
 
             Context.ShowTrayIconOnPages = config.Tray.ShowTrayIconOnPages;
+            Context.TrafficDistributionCookie = config.Settings.TrafficDistributionCookie;
         }
 
         private static List<IConditionEvaluator> LoadConditionEvaluators()
         {
-            var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator).ToList();
+            var types = typeof (FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator).ToList();
             return types.Select(_ =>
             {
                 var constructor = _.GetConstructor(Type.EmptyTypes);
-                return constructor != null ? (IConditionEvaluator)constructor.Invoke(null) : null;
-            }).ToList();            
+                return constructor != null ? (IConditionEvaluator) constructor.Invoke(null) : null;
+            }).ToList();
         }
 
         private static bool TypeIsConditionEvaluator(Type type)
         {
-            return type.GetInterface(typeof(IConditionEvaluator).Name) != null && !type.IsAbstract;
+            return type.GetInterface(typeof (IConditionEvaluator).Name) != null && !type.IsAbstract;
         }
     }
 }

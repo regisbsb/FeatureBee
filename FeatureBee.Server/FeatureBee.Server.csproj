@@ -274,6 +274,8 @@
     <Compile Include="Models\FeatureBeeContext.cs" />
     <Compile Include="Models\FeatureBeeEnvironmentViewModel.cs" />
     <Compile Include="Models\FeatureViewModel.cs" />
+    <Compile Include="Models\PersistableScalarCollection.cs" />
+    <Compile Include="Models\PersistableStringCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

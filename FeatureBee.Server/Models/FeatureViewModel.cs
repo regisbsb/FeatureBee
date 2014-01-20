@@ -19,7 +19,7 @@
         {
             if (Conditions == null) Conditions = new List<ConditionViewModel>();
             if (Conditions.Any(_ => _.Type == type)) return;
-            Conditions.Add(new ConditionViewModel() { Type = type, Values = new List<ConditionValueViewModel>() });
+            Conditions.Add(new ConditionViewModel {Type = type, Values = new PersistableStringCollection()});
         }
     }
 }

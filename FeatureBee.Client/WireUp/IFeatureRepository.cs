@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Runtime.Caching;
-using System.Web.Script.Serialization;
-
-namespace FeatureBee.WireUp
+﻿namespace FeatureBee.WireUp
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Runtime.Caching;
+    using System.Web.Script.Serialization;
+
     public interface IFeatureRepository
     {
         List<FeatureDto> GetFeatures();
@@ -47,7 +47,7 @@ namespace FeatureBee.WireUp
             }
 
             Cache.Set(new CacheItem("FeatureBee.Features", features),
-                      new CacheItemPolicy {AbsoluteExpiration = expiresOn, RemovedCallback = RefreshCache});
+                new CacheItemPolicy {AbsoluteExpiration = expiresOn, RemovedCallback = RefreshCache});
         }
 
         private List<FeatureDto> Deserialize(string input)

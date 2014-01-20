@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using FeatureBee.Evaluators;
-
-namespace FeatureBee.WireUp
+﻿namespace FeatureBee.WireUp
 {
+    using System.Collections.Generic;
+
+    using FeatureBee.Evaluators;
+
     internal interface IFeatureBeeContext
     {
         List<IConditionEvaluator> Evaluators { get; set; }
@@ -10,5 +11,6 @@ namespace FeatureBee.WireUp
         List<string> GodModeFeatures { get; }
         bool IsDebugMode { get; }
         bool ShowTrayIconOnPages { get; set; }
+        string TrafficDistributionCookie { get; set; }
     }
 }
