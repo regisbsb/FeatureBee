@@ -84,6 +84,11 @@ Target "CreatePackage" (fun _ ->
 
 Target "JasmineTest" DoNothing // TODO: Needs to be done...
 
+Target "Zip" (fun _ ->
+    !! (buildDir + "/_PublishedWebsites/FeatureBee.Server/**/*.*") 
+        -- "*.zip"
+        |> Zip (buildDir + "/_PublishedWebsites/FeatureBee.Server/") (deployDir + "FeatureBee.Server." + releaseNotes.AssemblyVersion + ".zip")
+)
 Target "Default" DoNothing
 
 // Build order
@@ -94,6 +99,7 @@ Target "Default" DoNothing
   ==> "MSpecTest"
   ==> "JasmineTest"
   ==> "CreatePackage"
+  ==> "Zip"
   ==> "Default"
 
 // start build
