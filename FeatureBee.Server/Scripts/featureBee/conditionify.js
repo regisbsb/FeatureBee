@@ -25,8 +25,8 @@
             $("body").on("click", '[' + self.options.triggerAdd + '="' + type + '"]', function () { self._renderItem(this, name, type, data); });
 
             $(data).each(function (index, value) {
-                $("body").off("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value.value + '" }"]');
-                $("body").on("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value.value + '" }"]', function () {
+                $("body").off("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value + '" }"]');
+                $("body").on("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value + '" }"]', function () {
                     var data = JSON.parse($(this).attr(self.options.triggerDelete));
                     self.options.delete({ name: name, type: type, values: [ data[type] ] });
                     $(this).parent().remove();
