@@ -269,7 +269,6 @@
     </Compile>
     <Compile Include="Domain\Models\FeatureAggregate.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\ConditionValueViewModel.cs" />
     <Compile Include="Models\ConditionViewModel.cs" />
     <Compile Include="Models\FeatureBeeContext.cs" />
     <Compile Include="Models\FeatureBeeEnvironmentViewModel.cs" />
