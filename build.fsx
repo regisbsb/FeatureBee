@@ -66,6 +66,7 @@ Target "CreatePackage" (fun _ ->
     CleanDirs [net45Dir]
 
     CopyFile net45Dir (buildDir @@ "FeatureBee.Client.dll")
+    CopyFile net45Dir (buildDir @@ "FeatureBee.Client.pdb")
     CopyFiles packagingDir ["LICENSE.txt"; "README.md"; "ReleaseNotes.md"]
 
     NuGet (fun p ->
@@ -82,7 +83,7 @@ Target "CreatePackage" (fun _ ->
             Publish = hasBuildParam "nugetkey" }) "featurebee.nuspec"
 )
 
-Target "JasmineTest" DoNothing // TODO: Needs to be done...
+Target "AcceptanceTest" DoNothing // TODO: Needs to be done...
 
 Target "Zip" (fun _ ->
     !! (buildDir + "/_PublishedWebsites/FeatureBee.Server/**/*.*") 
@@ -97,7 +98,7 @@ Target "Default" DoNothing
   ==> "BuildApp"
   ==> "NUnitTest"
   ==> "MSpecTest"
-  ==> "JasmineTest"
+  ==> "AcceptanceTest"
   ==> "CreatePackage"
   ==> "Zip"
   ==> "Default"
