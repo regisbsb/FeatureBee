@@ -6,8 +6,7 @@ namespace FeatureBee.Samples.Web.Controllers
     {
         public ActionResult Index()
         {
-            Feature.InjectEvaluator(featureName => true);
-            if (Feature.IsEnabled("PMVM-1150 Booking Overview"))
+            if (Feature.IsEnabled("FeatureOne"))
             {
                 ViewBag.Message = "Congratulations. You passed FeatureBee´s conditions";
             }

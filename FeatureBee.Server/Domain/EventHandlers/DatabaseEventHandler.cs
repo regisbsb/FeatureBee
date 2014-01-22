@@ -32,6 +32,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
                         Description = body.Description,
                         Team = body.Team,
                         Index = 0,
+                        State = "In Development",
                         Conditions = conditionList
                     });
                 }
@@ -69,18 +70,21 @@ namespace FeatureBee.Server.Domain.EventHandlers
             {
                 var feature = context.Features.Find(domainEvent.AggregateId);
                 feature.Index = 2;
+                feature.State = "Released";
             }
 
             if (@event.Body is FeatureReleasedWithConditionsEvent)
             {
                 var feature = context.Features.Find(domainEvent.AggregateId);
                 feature.Index = 1;
+                feature.State = "Under Test";
             }
 
             if (@event.Body is FeatureRollbackedEvent)
             {
                 var feature = context.Features.Find(domainEvent.AggregateId);
                 feature.Index = 0;
+                feature.State = "In Development";
             }
 
             if (@event.Body is FeatureRemovedEvent)
