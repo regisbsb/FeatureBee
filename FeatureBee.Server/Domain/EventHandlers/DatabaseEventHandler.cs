@@ -93,25 +93,27 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 context.Features.Remove(feature);
             }
 
-            if (@event.Body is FeatureConditionCreatedEvent)
-            {
-                var condition = (@event.Body as FeatureConditionCreatedEvent).Condition;
-                var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
-                feature.AddCondition(condition.Type);
-            }
-
             if (@event.Body is FeatureConditionValuesAddedEvent)
             {
                 var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesAddedEvent);
                 var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
-                feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).Values.Add(featureConditionValuesAddedEvent.Value);
+
+                var condition = feature.Conditions.FirstOrDefault(_ => _.Type == featureConditionValuesAddedEvent.Type)
+                                ?? new ConditionViewModel {Type = featureConditionValuesAddedEvent.Type};
+                condition.Values.Add(featureConditionValuesAddedEvent.Value);
             }
 
             if (@event.Body is FeatureConditionValuesRemovedEvent)
             {
                 var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesRemovedEvent);
                 var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
-                feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type).Values.Remove(featureConditionValuesAddedEvent.Value);
+                var condition = feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type);
+                condition.Values.Remove(featureConditionValuesAddedEvent.Value);
+
+                if (!condition.Values.Any())
+                {
+                    feature.Conditions.Remove(condition);
+                }
             }
 
             context.SaveChanges();
