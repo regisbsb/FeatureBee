@@ -229,14 +229,12 @@
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
     <Compile Include="Domain\ApplicationServices\AddValueToConditionCommand.cs" />
-    <Compile Include="Domain\ApplicationServices\ChangeFeatureConditionsCommand.cs" />
     <Compile Include="Domain\ApplicationServices\CreateFeatureCommand.cs" />
     <Compile Include="Domain\ApplicationServices\DeleteFeatureCommand.cs" />
     <Compile Include="Domain\ApplicationServices\FeatureApplicationServices.cs" />
     <Compile Include="Domain\ApplicationServices\ICommand.cs" />
     <Compile Include="Domain\ApplicationServices\ICommandHandler.cs" />
     <Compile Include="Domain\ApplicationServices\LinkToTicketCommand.cs" />
-    <Compile Include="Domain\ApplicationServices\NewConditionCommand.cs" />
     <Compile Include="Domain\ApplicationServices\ReleaseFeatureForEveryoneCommand.cs" />
     <Compile Include="Domain\ApplicationServices\RemoveValueFromConditionCommand.cs" />
     <Compile Include="Domain\ApplicationServices\RollbackFeatureCommand.cs" />
@@ -253,8 +251,6 @@
     <Compile Include="Domain\Infrastruture\IEventHandler.cs" />
     <Compile Include="Domain\Infrastruture\NEventStoreDispatcher.cs" />
     <Compile Include="Domain\Models\Condition.cs" />
-    <Compile Include="Domain\Models\FeatureConditionCreatedEvent.cs" />
-    <Compile Include="Domain\Models\FeatureConditionsChangedEvent.cs" />
     <Compile Include="Domain\Models\FeatureConditionValuesAddedEvent.cs" />
     <Compile Include="Domain\Models\FeatureConditionValuesRemovedEvent.cs" />
     <Compile Include="Domain\Models\FeatureCreatedEvent.cs" />

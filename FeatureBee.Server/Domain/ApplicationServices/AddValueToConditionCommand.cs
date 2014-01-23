@@ -10,9 +10,9 @@ namespace FeatureBee.Server.Domain.ApplicationServices
 
         public AddValueToConditionCommand(string name, string type, string[] values)
         {
-            this.Name = name;
-            this.Type = type;
-            this.Values = values;
+            Name = name;
+            Type = type;
+            Values = values;
         }
     }
 }

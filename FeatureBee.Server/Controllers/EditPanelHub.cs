@@ -14,11 +14,6 @@
             this.commandSender = commandSender;
         }
 
-        public void CreateCondition(string name, string type)
-        {
-            commandSender.Send(new NewConditionCommand(name, type));
-        }
-
         public void AddConditionValue(string name, string type, string[] values)
         {
             commandSender.Send(new AddValueToConditionCommand(name, type, values));

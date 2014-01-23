@@ -1,7 +1,6 @@
 namespace FeatureBee.Server.Domain.EventHandlers
 {
     using FeatureBee.Server.Controllers;
-    using FeatureBee.Server.Domain.ApplicationServices;
     using FeatureBee.Server.Domain.Infrastruture;
     using FeatureBee.Server.Domain.Models;
 
@@ -33,11 +32,6 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
                 hub.Clients.All.featureRollbacked((@event.Body as FeatureRollbackedEvent).Name);
             }
-            if (@event.Body is FeatureConditionsChangedEvent)
-            {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
-                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionsChangedEvent).Name);
-            }
             if (@event.Body is FeatureDescriptionUpdatedEvent)
             {
                 var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
@@ -47,11 +41,6 @@ namespace FeatureBee.Server.Domain.EventHandlers
             {
                 var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
                 hub.Clients.All.linkedToTicket((@event.Body as FeatureLinkedToTicketEvent).Name);
-            }
-            if (@event.Body is FeatureConditionCreatedEvent)
-            {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
-                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionCreatedEvent).FeatureName);
             }
             if (@event.Body is FeatureConditionValuesAddedEvent)
             {

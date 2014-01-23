@@ -79,16 +79,6 @@
             Apply(new FeatureRemovedEvent {Name = featureName});
         }
 
-        public void ChangeConditions(List<Condition> conditions)
-        {
-            Apply(new FeatureConditionsChangedEvent(featureName, conditions));
-        }
-
-        public void AddCondition(string type)
-        {
-            Apply(new FeatureConditionCreatedEvent(featureName, new Condition {Type = type}));
-        }
-
         public void AddValuesToCondition(string type, string[] values)
         {
             Apply(new FeatureConditionValuesAddedEvent(featureName, type, values));
@@ -99,22 +89,15 @@
             Apply(new FeatureConditionValuesRemovedEvent(featureName, type, values));
         }
 
-        public void Delete()
-        {
-            Apply(new FeatureRemovedEvent());
-        }
-
         private void RegisterEvents()
         {
             RegisterEvent<FeatureCreatedEvent>(OnFeatureCreated);
             RegisterEvent<FeatureReleasedWithConditionsEvent>(OnFeatureTested);
             RegisterEvent<FeatureReleasedForEveryoneEvent>(OnFeatureRelased);
             RegisterEvent<FeatureRollbackedEvent>(OnFeatureRollbacked);
-            RegisterEvent<FeatureConditionsChangedEvent>(OnFeatureConditionsChanged);
             RegisterEvent<FeatureDescriptionUpdatedEvent>(OnFeatureDescriptionUpdated);
             RegisterEvent<FeatureLinkedToTicketEvent>(OnFeatureLinkedToTicket);
             RegisterEvent<FeatureRemovedEvent>(OnFeatureRemoved);
-            RegisterEvent<FeatureConditionCreatedEvent>(OnFeatureConditionAdded);
             RegisterEvent<FeatureConditionValuesAddedEvent>(OnFeatureConditionValuesAdded);
             RegisterEvent<FeatureConditionValuesRemovedEvent>(OnFeatureConditionValuesRemoved);
         }
@@ -137,23 +120,10 @@
             featureLinkToTicket = @event.Link;
         }
 
-        private void OnFeatureConditionAdded(FeatureConditionCreatedEvent @event)
-        {
-            if (conditions.Any(_ => _.Type == @event.Condition.Type))
-            {
-                return;
-            }
-
-            conditions.Add(@event.Condition);
-        }
-
         private void OnFeatureConditionValuesAdded(FeatureConditionValuesAddedEvent @event)
         {
-            var condition = conditions.FirstOrDefault(_ => _.Type == @event.Type);
-            if (condition == null)
-            {
-                throw new Exception("You cannot add values to a condition that does not exist");
-            }
+            var condition = conditions.FirstOrDefault(_ => _.Type == @event.Type) ??
+                            new Condition {Type = @event.Type };
 
             new ConditionEditor().AddValue(condition, @event.Value);
         }
@@ -163,14 +133,10 @@
             var condition = conditions.FirstOrDefault(_ => _.Type == @event.Type);
             if (condition == null)
             {
-                throw new Exception("You cannot add values to a condition that does not exist");
+                return;
             }
 
             new ConditionEditor().RemoveValue(condition, @event.Value);
-        }
-
-        private void OnFeatureConditionsChanged(FeatureConditionsChangedEvent @event)
-        {
         }
 
         private void OnFeatureRollbacked(FeatureRollbackedEvent @event)

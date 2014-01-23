@@ -57,15 +57,6 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 feature.Link = body.Link;
             }
 
-            if (@event.Body is FeatureConditionsChangedEvent)
-            {
-                var body = @event.Body as FeatureConditionsChangedEvent;
-                var feature = context.Features.Find(domainEvent.AggregateId);
-                feature.Conditions =
-                    body.Conditions.Select(c => new ConditionViewModel {Type = c.Type, Values = new PersistableStringCollection(c.Values)})
-                        .ToList();
-            }
-
             if (@event.Body is FeatureReleasedForEveryoneEvent)
             {
                 var feature = context.Features.Find(domainEvent.AggregateId);
