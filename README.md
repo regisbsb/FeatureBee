@@ -1,6 +1,9 @@
 FeatureBee
 ==========
 
+![FeatureBee CI Build Status](https://www.myget.org/BuildSource/Badge/featurebee-ci?identifier=24682329-ee15-41cc-ad5e-922ae684f261)
+
+
 ##How to contribute
 
 1. Check the [issues](https://github.com/AutoScout24/FeatureBee/issues) for stuff that needs to be done.
