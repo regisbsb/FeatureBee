@@ -23,6 +23,8 @@ let releaseNotes =
     ReadFile "ReleaseNotes.md"
     |> ReleaseNotesHelper.parseReleaseNotes
 
+let version = getBuildParamOrDefault "PackageVersion" releaseNotes.AssemblyVersion
+
 let buildMode = getBuildParamOrDefault "buildMode" "Release"
 
 // Targets
@@ -34,8 +36,8 @@ open Fake.AssemblyInfoFile
 Target "SetVersion" (fun _ ->
     CreateCSharpAssemblyInfo "./SolutionInfo.cs"
       [ Attribute.Product projectName
-        Attribute.Version releaseNotes.AssemblyVersion
-        Attribute.FileVersion releaseNotes.AssemblyVersion
+        Attribute.Version version
+        Attribute.FileVersion version
         Attribute.ComVisible false]
 )
 
@@ -77,7 +79,7 @@ Target "CreatePackage" (fun _ ->
             OutputPath = packagingDir
             Summary = projectSummary
             WorkingDir = packagingDir
-            Version = releaseNotes.AssemblyVersion
+            Version = version
             ReleaseNotes = toLines releaseNotes.Notes
             AccessKey = getBuildParamOrDefault "nugetkey" ""
             Publish = hasBuildParam "nugetkey" }) "featurebee.nuspec"
@@ -88,7 +90,7 @@ Target "AcceptanceTest" DoNothing // TODO: Needs to be done...
 Target "Zip" (fun _ ->
     !! (buildDir + "/_PublishedWebsites/FeatureBee.Server/**/*.*") 
         -- "*.zip"
-        |> Zip (buildDir + "/_PublishedWebsites/FeatureBee.Server/") (deployDir + "FeatureBee.Server." + releaseNotes.AssemblyVersion + ".zip")
+        |> Zip (buildDir + "/_PublishedWebsites/FeatureBee.Server/") (deployDir + "FeatureBee.Server." + version + ".zip")
 )
 Target "Default" DoNothing
 
