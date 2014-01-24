@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label for="team" class="col-lg-2 control-label">Team</label>
                         <div class="col-lg-10">
-                            <input type="text"  class="form-control" id="team" name="team" readonly="readonly"  value="{{team}}" />
+                            <input type="text" class="form-control" id="team" name="team" readonly="readonly" value="{{team}}" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -80,27 +80,7 @@
                 </fieldset>
             </div>
             <div class="col-lg-6" data-container="condition">
-                {{#each conditions}}
-                <div class="row" data-container="condition-item">
-                    {{#condition ../name type values}}
-                    {{setIndex @@index}}
-                    <p>
-                        <input type="hidden" name="conditions[{{outerindex}}][type]" value="{{type}}" />
-                        {{type}}
-                        {{#each values}}
-                        <input type="hidden" name="conditions[{{../outerindex}}][values][{{&#64;index}}]" value="{{this}}" />
-                        <span class="label-{{../type}} label label-condition">
-                            <button type="button" class="btn delete-condition" data-delete='{ "{{../type}}" : "{{this}}" }'>×</button>
-                            <span data-edit="{{this}}">{{this}}</span>
-                        </span>
-                        {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition-value="{{type}}">+</span>
-                    </p>
-                    {{/condition}}
-                </div>
-                {{else}}
-                {{#emptyCondition ../name}}
-                {{/emptyCondition}}
-                {{/each}}
+                {{> conditions}}
                 <div class="row">
                     <p>&nbsp;</p>
                     <div class="col-lg-push-6 col-lg-6 btn btn-success" data-add-condition="{{name}}">Add Condition</div>
@@ -109,3 +89,27 @@
         </form>
     </div>
 </div>
+<script id="conditions-partial" type="text/x-handlebars-template">
+    {{#each conditions}}
+        <div class="row" data-container="condition-item">
+            {{#condition ../name type values}}
+            {{setIndex @@index}}
+            <p>
+                <input type="hidden" name="conditions[{{outerindex}}][type]" value="{{type}}" />
+                {{type}}
+                {{#each values}}
+                <input type="hidden" name="conditions[{{../outerindex}}][values][{{&#64;index}}]" value="{{this}}" />
+                <span class="label-{{../type}} label label-condition">
+                    <button type="button" class="btn delete-condition" data-delete='{ "{{../type}}" : "{{this}}" }'>×</button>
+                    <span data-edit="{{this}}">{{this}}</span>
+                </span>
+                {{/each}}<span class="btn btn-{{type}} btn-xs" data-add-condition-value="{{type}}">+</span>
+            </p>
+            {{/condition}}
+        </div>
+    {{else}}
+    {{#emptyCondition ../name}}
+    {{/emptyCondition}}
+    {{/each}}
+
+</script>

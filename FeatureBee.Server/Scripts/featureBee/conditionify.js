@@ -6,6 +6,10 @@
 
     $.widget("as24.conditionify", {
         options: {
+            getTemplate: function(element) {
+                Handlebars.compile($(element).find('[data-container="condition-item"]').html().trim());
+            },
+
             conditions: [],
             triggerAdd: 'data-add-condition-value',
             triggerDelete: 'data-delete',
@@ -18,6 +22,10 @@
         
         baseTemplate : null,
         templates: [],
+
+        apply: function (name) {
+            
+        },
         
         render: function (name, type, data) {
             var self = this;
@@ -90,7 +98,7 @@
 
         _create: function () {
             var self = this;
-            self.baseTemplate = Handlebars.compile($(self.element).find('[data-container="condition-item"]').html().trim());
+            self.baseTemplate = self.options.getTemplate(self.element);
             for (var i = 0; i < this.options.conditions.length; i++) {
                 var condition = this.options.conditions[i];
                 var source = $(condition.template).html().trim();

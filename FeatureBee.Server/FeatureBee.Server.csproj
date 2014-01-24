@@ -303,8 +303,10 @@
     <Content Include="Content\style.css" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\featureBee\conditionify.js" />
+    <Content Include="Scripts\featureBee\featureController.js" />
     <Content Include="Scripts\featureBee\help.js" />
     <Content Include="Scripts\featureBee\jsonify.js" />
+    <Content Include="Scripts\featureBee\specs\featureController.specs.js" />
     <Content Include="Scripts\featureBee\specs\formify.specs.js" />
     <Content Include="Scripts\jasmine\jasmine-html.js" />
     <Content Include="Scripts\jasmine\jasmine.js" />
