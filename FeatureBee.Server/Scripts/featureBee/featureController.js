@@ -1,30 +1,47 @@
-﻿var FeatureBeeController = function (boardHub, editPanelHub, request) {
+﻿var FeatureBeeController = function (boardHub, editPanelHub, request, conditionController) {
     this.add = {
-        get: function() {},
         post: function(feature) {
             boardHub.server.addNewItem(
                    {
                        name: feature.name,
                        team: feature.team,
                        description: feature.description,
-                       link: feature.link,
-                       conditions: feature.conditions
+                       link: feature.link
                    });
         }
     };
 
     this.edit = {
-        get: function (featureId) {
-            var feature = request.get('/api/features/?id=' + featureId);
-            return feature;
-        },
-        post: function(feature) {
+        post: function (feature) {
+            feature.conditions = conditionController.trimEmptyConditions(feature.conditions);
             editPanelHub.server.editItem(
             {
                 name: feature.name,
                 description: feature.description,
-                link: feature.link
+                link: feature.link,
+                conditions: feature.conditions
             });
+        }
+    };
+
+    this.find = {
+        all: function () {
+            var features = request.get('/api/features');
+            $.each(features, function (index, feature) {
+                if (feature) {
+                    feature.conditions = conditionController.addMissingConditions(feature.conditions);
+                }
+            });
+
+            return features;
+        },
+        byId: function (featureId) {
+            var feature = request.get('/api/features/?id=' + featureId);
+            if (feature) {
+                feature.conditions = conditionController.addMissingConditions(feature.conditions);
+            }
+
+            return feature;
         }
     };
 };

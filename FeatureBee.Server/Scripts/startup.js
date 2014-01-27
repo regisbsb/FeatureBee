@@ -16,7 +16,12 @@
         }
     };
 
-    var featureController = new FeatureBeeController(boardHub, editPanelHub, request);
+    var conditionsController = new ConditionController([
+        { type: "trafficDistribution", values : [] },
+        { type: "culture", values: [] },
+        { type: "browser", values: [] }
+    ]);
+    var featureController = new FeatureBeeController(boardHub, editPanelHub, request, conditionsController);
     var form;
     
     boardHub.client.featureCreated = function (item) {
@@ -105,13 +110,7 @@
     var filter = new dataFilter();
 
     var dataProvider = function() {
-        var data = null;
-        jQuery.ajaxSetup({ async: false });
-        $.get('/api/features').done(function (d) {
-            data = d;
-        });
-        jQuery.ajaxSetup({ async: true });
-
+        var data = featureController.find.all();
         return filter.apply(data);
     };
 
@@ -169,7 +168,7 @@
 
     var handleBar = function(templates) {
         var self = this;
-        Handlebars.registerPartial("conditions", $("#conditions-partial").html());
+
         Handlebars.registerHelper('setIndex', function (value) {
             this.outerindex = Number(value);
         });
@@ -202,15 +201,7 @@
                     callback(data);
                 },
                 width: withWidth,
-                source: function(featureId) {
-                    var data = null;
-                    jQuery.ajaxSetup({ async: false });
-                    $.get('/api/features/?id=' + featureId).done(function (d) {
-                        data = d;
-                    });
-                    jQuery.ajaxSetup({ async: true });
-                    return data;
-                }
+                source: featureController.edit.get
             });
         };
 

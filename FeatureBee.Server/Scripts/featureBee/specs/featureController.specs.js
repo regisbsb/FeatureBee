@@ -6,6 +6,15 @@ describe("featureController", function () {
     var featureController;
     var boardHub, editPanelHub, request, response;
     beforeEach(function () {
+        var conditionController = {
+            addMissingConditions: function(array) {
+                return array;
+            },
+            trimEmptyConditions: function(array) {
+                return array;
+            }
+        };
+
         boardHub = {
             server: {
                 addNewItem : function () {}
@@ -27,7 +36,7 @@ describe("featureController", function () {
         };
         spyOn(request, 'get');
 
-        featureController = new FeatureBeeController(boardHub, editPanelHub, request);
+        featureController = new FeatureBeeController(boardHub, editPanelHub, request, conditionController);
     });
 
     describe("when a new feature is created", function () {
@@ -44,7 +53,7 @@ describe("featureController", function () {
         var feature;
 
         beforeEach(function() {
-            feature = featureController.edit.get("myfeature");
+            feature = featureController.find.byId("myfeature");
         });
 
         it("should have requested the feature from the server", function() {
