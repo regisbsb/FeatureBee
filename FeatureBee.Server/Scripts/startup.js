@@ -145,16 +145,7 @@
         };
 
         var c = $('[data-container="condition"]').conditionify({
-            conditions: loadConditionTemplates(templates),
-            add: function (data) {
-                editPanelHub.server.addConditionValue(data.name, data.type, data.values);
-            },
-            delete: function (data) {
-                editPanelHub.server.removeConditionValue(data.name, data.type, data.values);
-            },
-            new: function (data) {
-                editPanelHub.server.createCondition(data.name, data.type);
-            }
+            conditions: loadConditionTemplates(templates)
         });
 
         this.render = function (name, type, element, data) {

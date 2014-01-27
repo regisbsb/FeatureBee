@@ -2,13 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using FeatureBee.Server.Domain.Infrastruture;
 
     public class FeatureAggregate : BaseAggregateRoot
     {
-        private List<Condition> conditions;
         private string featureDescription;
         private string featureLinkToTicket;
         private string featureName;
@@ -64,6 +62,11 @@
             Apply(new FeatureReleasedWithConditionsEvent {Name = featureName});
         }
 
+        public void UpdateConditions(List<Condition> conditions)
+        {
+            Apply(new FeatureConditionsUpdatedEvent() { Name = featureName, Conditions = conditions});
+        }
+
         public void ReleaseForEveryone()
         {
             Apply(new FeatureReleasedForEveryoneEvent {Name = featureName});
@@ -79,16 +82,6 @@
             Apply(new FeatureRemovedEvent {Name = featureName});
         }
 
-        public void AddValuesToCondition(string type, string[] values)
-        {
-            Apply(new FeatureConditionValuesAddedEvent(featureName, type, values));
-        }
-
-        public void RemoveValueFromCondition(string type, string[] values)
-        {
-            Apply(new FeatureConditionValuesRemovedEvent(featureName, type, values));
-        }
-
         private void RegisterEvents()
         {
             RegisterEvent<FeatureCreatedEvent>(OnFeatureCreated);
@@ -98,8 +91,7 @@
             RegisterEvent<FeatureDescriptionUpdatedEvent>(OnFeatureDescriptionUpdated);
             RegisterEvent<FeatureLinkedToTicketEvent>(OnFeatureLinkedToTicket);
             RegisterEvent<FeatureRemovedEvent>(OnFeatureRemoved);
-            RegisterEvent<FeatureConditionValuesAddedEvent>(OnFeatureConditionValuesAdded);
-            RegisterEvent<FeatureConditionValuesRemovedEvent>(OnFeatureConditionValuesRemoved);
+            RegisterEvent<FeatureConditionsUpdatedEvent>(OnFeatureConditionsUpdated);
         }
 
         private void OnFeatureCreated(FeatureCreatedEvent @event)
@@ -107,7 +99,6 @@
             Id = @event.AggregateId;
             featureName = @event.Name;
             featureDescription = @event.Description;
-            conditions = @event.Conditions ?? new List<Condition>();
         }
 
         private void OnFeatureDescriptionUpdated(FeatureDescriptionUpdatedEvent @event)
@@ -118,25 +109,6 @@
         private void OnFeatureLinkedToTicket(FeatureLinkedToTicketEvent @event)
         {
             featureLinkToTicket = @event.Link;
-        }
-
-        private void OnFeatureConditionValuesAdded(FeatureConditionValuesAddedEvent @event)
-        {
-            var condition = conditions.FirstOrDefault(_ => _.Type == @event.Type) ??
-                            new Condition {Type = @event.Type };
-
-            new ConditionEditor().AddValue(condition, @event.Value);
-        }
-
-        private void OnFeatureConditionValuesRemoved(FeatureConditionValuesRemovedEvent @event)
-        {
-            var condition = conditions.FirstOrDefault(_ => _.Type == @event.Type);
-            if (condition == null)
-            {
-                return;
-            }
-
-            new ConditionEditor().RemoveValue(condition, @event.Value);
         }
 
         private void OnFeatureRollbacked(FeatureRollbackedEvent @event)
@@ -152,6 +124,10 @@
         }
 
         private void OnFeatureRemoved(FeatureRemovedEvent @event)
+        {
+        }
+
+        private void OnFeatureConditionsUpdated(FeatureConditionsUpdatedEvent @event)
         {
         }
     }

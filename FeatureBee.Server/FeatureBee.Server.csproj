@@ -228,7 +228,7 @@
     <Compile Include="Controllers\FeatureBeeController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
-    <Compile Include="Domain\ApplicationServices\AddValueToConditionCommand.cs" />
+    <Compile Include="Domain\ApplicationServices\UpdateConditionsCommand.cs" />
     <Compile Include="Domain\ApplicationServices\CreateFeatureCommand.cs" />
     <Compile Include="Domain\ApplicationServices\DeleteFeatureCommand.cs" />
     <Compile Include="Domain\ApplicationServices\FeatureApplicationServices.cs" />
@@ -236,7 +236,6 @@
     <Compile Include="Domain\ApplicationServices\ICommandHandler.cs" />
     <Compile Include="Domain\ApplicationServices\LinkToTicketCommand.cs" />
     <Compile Include="Domain\ApplicationServices\ReleaseFeatureForEveryoneCommand.cs" />
-    <Compile Include="Domain\ApplicationServices\RemoveValueFromConditionCommand.cs" />
     <Compile Include="Domain\ApplicationServices\RollbackFeatureCommand.cs" />
     <Compile Include="Domain\ApplicationServices\ReleaseFeatureWithConditionsCommand.cs" />
     <Compile Include="Domain\ApplicationServices\UpdateDescriptionCommand.cs" />
@@ -244,15 +243,13 @@
     <Compile Include="Domain\EventHandlers\HubEventHandler.cs" />
     <Compile Include="Domain\Infrastruture\BaseAggregateRoot.cs" />
     <Compile Include="Domain\Infrastruture\DomainRepository.cs" />
-    <Compile Include="Domain\Infrastruture\FeatureConditionValueHandler.cs" />
     <Compile Include="Domain\Infrastruture\ICommandSender.cs" />
     <Compile Include="Domain\Infrastruture\IDomainEvent.cs" />
     <Compile Include="Domain\Infrastruture\IDomainRepository.cs" />
     <Compile Include="Domain\Infrastruture\IEventHandler.cs" />
     <Compile Include="Domain\Infrastruture\NEventStoreDispatcher.cs" />
     <Compile Include="Domain\Models\Condition.cs" />
-    <Compile Include="Domain\Models\FeatureConditionValuesAddedEvent.cs" />
-    <Compile Include="Domain\Models\FeatureConditionValuesRemovedEvent.cs" />
+    <Compile Include="Domain\Models\FeatureConditionsUpdatedEvent.cs" />
     <Compile Include="Domain\Models\FeatureCreatedEvent.cs" />
     <Compile Include="Domain\Models\FeatureDescriptionUpdatedEvent.cs" />
     <Compile Include="Domain\Models\FeatureLinkedToTicketEvent.cs" />

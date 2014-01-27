@@ -13,19 +13,11 @@
             conditions: [],
             triggerAdd: 'data-add-condition-value',
             triggerDelete: 'data-delete',
-            triggerNew: 'data-add-condition',
-
-            add: function () { },
-            delete: function () { },
-            new: function () { }
+            triggerNew: 'data-add-condition'
         },
 
         baseTemplate: null,
         templates: [],
-
-        apply: function (name) {
-
-        },
 
         render: function (name, type, data) {
             var self = this;
@@ -36,15 +28,9 @@
                 $("body").off("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value + '" }"]');
                 $("body").on("click", '[' + self.options.triggerDelete + '="{ "' + type + '" : "' + value + '" }"]', function () {
                     var data = JSON.parse($(this).attr(self.options.triggerDelete));
-                    self.options.delete({ name: name, type: type, values: [data[type]] });
                     $(this).parent().remove();
                 });
             });
-
-            self.renderAddNewCondition(name);
-        },
-
-        renderAddNewCondition: function (name) {
         },
 
         _renderItem: function (ele, name, type, data) {
@@ -65,7 +51,6 @@
                         datastate.values.push($(this).val());
                     });
 
-                    self.options.add(datastate);
                     data.push(datastate.values[0]);
                     $(element).parent().html(self.baseTemplate({ name: name, type: type, values: data }));
                     $(element).remove();

@@ -42,15 +42,10 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
                 hub.Clients.All.linkedToTicket((@event.Body as FeatureLinkedToTicketEvent).Name);
             }
-            if (@event.Body is FeatureConditionValuesAddedEvent)
+            if (@event.Body is FeatureConditionsUpdatedEvent)
             {
                 var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
-                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionValuesAddedEvent).FeatureName);
-            }
-            if (@event.Body is FeatureConditionValuesRemovedEvent)
-            {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
-                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionValuesRemovedEvent).FeatureName);
+                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionsUpdatedEvent).Name);
             }
         }
     }

@@ -14,8 +14,7 @@
         ICommandHandler<RollbackFeatureCommand>,
         ICommandHandler<UpdateDescriptionCommand>,
         ICommandHandler<LinkToTicketCommand>,
-        ICommandHandler<AddValueToConditionCommand>,
-        ICommandHandler<RemoveValueFromConditionCommand>,
+        ICommandHandler<UpdateConditionsCommand>,
         ICommandHandler<DeleteFeatureCommand>
     {
         private readonly IDomainRepository repository;
@@ -74,17 +73,10 @@
             repository.Save(aggregate);
         }
 
-        public void Execute(AddValueToConditionCommand command)
+        public void Execute(UpdateConditionsCommand command)
         {
             var feature = LoadAggregate(command.Name);
-            feature.AddValuesToCondition(command.Type, command.Values);
-            repository.Save(feature);
-        }
-
-        public void Execute(RemoveValueFromConditionCommand command)
-        {
-            var feature = LoadAggregate(command.Name);
-            feature.RemoveValueFromCondition(command.Type, command.Values);
+            feature.UpdateConditions(command.Conditions);
             repository.Save(feature);
         }
 

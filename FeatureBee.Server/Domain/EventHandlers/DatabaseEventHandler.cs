@@ -21,9 +21,6 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 try
                 {
                     var body = @event.Body as FeatureCreatedEvent;
-                    var conditions = body.Conditions.Select(c => new ConditionViewModel {Type = c.Type, Values = new PersistableStringCollection(c.Values)});
-
-                    var conditionList = conditions.ToList();
 
                     context.Features.Add(new FeatureViewModel
                     {
@@ -33,7 +30,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
                         Team = body.Team,
                         Index = 0,
                         State = "In Development",
-                        Conditions = conditionList
+                        Conditions = body.Conditions.Select(ToConditionViewModel).ToList()
                     });
                 }
                 catch (Exception e)
@@ -84,30 +81,20 @@ namespace FeatureBee.Server.Domain.EventHandlers
                 context.Features.Remove(feature);
             }
 
-            if (@event.Body is FeatureConditionValuesAddedEvent)
+            if (@event.Body is FeatureConditionsUpdatedEvent)
             {
-                var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesAddedEvent);
-                var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
+                var body = @event.Body as FeatureConditionsUpdatedEvent;
+                var feature = context.Features.Find(body.AggregateId);
 
-                var condition = feature.Conditions.FirstOrDefault(_ => _.Type == featureConditionValuesAddedEvent.Type)
-                                ?? new ConditionViewModel {Type = featureConditionValuesAddedEvent.Type};
-                condition.Values.Add(featureConditionValuesAddedEvent.Value);
-            }
-
-            if (@event.Body is FeatureConditionValuesRemovedEvent)
-            {
-                var featureConditionValuesAddedEvent = (@event.Body as FeatureConditionValuesRemovedEvent);
-                var feature = context.Features.First(f => f.Id == domainEvent.AggregateId);
-                var condition = feature.Conditions.First(_ => _.Type == featureConditionValuesAddedEvent.Type);
-                condition.Values.Remove(featureConditionValuesAddedEvent.Value);
-
-                if (!condition.Values.Any())
-                {
-                    feature.Conditions.Remove(condition);
-                }
+                feature.Conditions = body.Conditions.Select(ToConditionViewModel).ToList();
             }
 
             context.SaveChanges();
+        }
+
+        private static ConditionViewModel ToConditionViewModel(Condition condition)
+        {
+            return new ConditionViewModel { Type = condition.Type, Values = new PersistableStringCollection(condition.Values) };
         }
     }
 }
