@@ -85,7 +85,7 @@ namespace FeatureBee.Server.Domain.EventHandlers
             {
                 var body = @event.Body as FeatureConditionsUpdatedEvent;
                 var feature = context.Features.Find(body.AggregateId);
-
+                feature.Conditions.Clear();
                 feature.Conditions = body.Conditions.Select(ToConditionViewModel).ToList();
             }
 

@@ -37,10 +37,10 @@
                     var currentValue = JSON.parse($(this).attr(self.options.triggerDelete));
                     $(self.options.conditions).each(function (i, condition) {
                         if (condition.type == type) {
-                            condition.values.splice($.inArray(currentValue.value, condition.values), 1);
+                            condition.values.splice(currentValue.value, 1);
                         }
                     });
-                    $(this).parent().remove();
+                    $(this).parents('[data-container="condition"]').html(self.baseTemplate({ conditions: self.options.conditions }));
                 });
             });
         },
