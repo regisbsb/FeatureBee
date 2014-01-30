@@ -151,10 +151,6 @@
         this.render = function (name, type, element, data) {
             c.conditionify('render', name, type, element, data);
         };
-        
-        this.renderAddNewCondition = function (name) {
-            c.conditionify('renderAddNewCondition', name);
-        };
     };
 
     var handleBar = function(templates) {
@@ -175,7 +171,6 @@
             return $el.html();
         });
         window.Handlebars.registerHelper('emptyCondition', function (name) {
-            templates.renderAddNewCondition(name);
             return "";
         });
         window.Handlebars.registerHelper('editExisting', function (name) {
