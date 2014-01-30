@@ -3,8 +3,6 @@
     using System;
     using System.Linq;
 
-    using FeatureBee.Server.Controllers;
-    using FeatureBee.Server.Domain.EventHandlers;
     using FeatureBee.Server.Domain.Infrastruture;
     using FeatureBee.Server.Domain.Models;
     using FeatureBee.Server.Models;
@@ -14,12 +12,9 @@
         ICommandHandler<ReleaseFeatureForEveryoneCommand>,
         ICommandHandler<ReleaseFeatureWithConditionsCommand>,
         ICommandHandler<RollbackFeatureCommand>,
-        ICommandHandler<ChangeFeatureConditionsCommand>,
         ICommandHandler<UpdateDescriptionCommand>,
         ICommandHandler<LinkToTicketCommand>,
-        ICommandHandler<NewConditionCommand>,
-        ICommandHandler<AddValueToConditionCommand>,
-        ICommandHandler<RemoveValueFromConditionCommand>,
+        ICommandHandler<UpdateConditionsCommand>,
         ICommandHandler<DeleteFeatureCommand>
     {
         private readonly IDomainRepository repository;
@@ -64,13 +59,6 @@
             repository.Save(aggregate);
         }
 
-        public void Execute(ChangeFeatureConditionsCommand command)
-        {
-            var aggregate = LoadAggregate(command.Name);
-            aggregate.ChangeConditions(command.Conditions);
-            repository.Save(aggregate);
-        }
-
         public void Execute(UpdateDescriptionCommand command)
         {
             var aggregate = LoadAggregate(command.Name);
@@ -85,24 +73,10 @@
             repository.Save(aggregate);
         }
 
-        public void Execute(NewConditionCommand command)
+        public void Execute(UpdateConditionsCommand command)
         {
-            var feature = this.LoadAggregate(command.Name);
-            feature.AddCondition(command.Type);
-            repository.Save(feature);
-        }
-
-        public void Execute(AddValueToConditionCommand command)
-        {
-            var feature = this.LoadAggregate(command.Name);
-            feature.AddValuesToCondition(command.Type, command.Values);
-            repository.Save(feature);
-        }
-
-        public void Execute(RemoveValueFromConditionCommand command)
-        {
-            var feature = this.LoadAggregate(command.Name);
-            feature.RemoveValueFromCondition(command.Type, command.Values);
+            var feature = LoadAggregate(command.Name);
+            feature.UpdateConditions(command.Conditions);
             repository.Save(feature);
         }
 

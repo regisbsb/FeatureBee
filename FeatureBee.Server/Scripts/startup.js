@@ -3,6 +3,25 @@
     var boardHub = $.connection.boardHub;
     // edit panel hub => edit dialog specific functions.
     var editPanelHub = $.connection.editPanelHub;
+
+    var request = {
+        get: function(url) {
+            var reposonse;
+            jQuery.ajaxSetup({ async: false });
+            $.get(url).done(function(data) {
+                reposonse = data;
+            });
+            jQuery.ajaxSetup({ async: true });
+            return reposonse;
+        }
+    };
+
+    var conditionsController = new ConditionController([
+        { type: "trafficDistribution", values : [] },
+        { type: "culture", values: [] },
+        { type: "browser", values: [] }
+    ]);
+    var featureController = new FeatureBeeController(boardHub, editPanelHub, request, conditionsController);
     var form;
     
     boardHub.client.featureCreated = function (item) {
@@ -91,13 +110,7 @@
     var filter = new dataFilter();
 
     var dataProvider = function() {
-        var data = null;
-        jQuery.ajaxSetup({ async: false });
-        $.get('/api/features').done(function (d) {
-            data = d;
-        });
-        jQuery.ajaxSetup({ async: true });
-
+        var data = featureController.find.all();
         return filter.apply(data);
     };
 
@@ -120,38 +133,29 @@
 
     var conditionTemplates = function () {
         var templates = [];
-        $('[data-template]').each(function (index, value) {
-            templates.push({
-                type: $(value).attr('data-template'),
-                template: $(value)
+
+        var loadConditionTemplates = function (templatesTypeTemplateStore) {
+            $('[data-template]').each(function(index, value) {
+                templatesTypeTemplateStore.push({
+                    type: $(value).attr('data-template'),
+                    template: $(value)
+                });
             });
-        });
+            return templatesTypeTemplateStore;
+        };
 
         var c = $('[data-container="condition"]').conditionify({
-            conditions: templates,
-            add: function (data) {
-                editPanelHub.server.addConditionValue(data.name, data.type, data.values);
-            },
-            delete: function (data) {
-                editPanelHub.server.removeConditionValue(data.name, data.type, data.values);
-            },
-            new: function (data) {
-                editPanelHub.server.createCondition(data.name, data.type);
-            }
+            conditions: loadConditionTemplates(templates)
         });
 
         this.render = function (name, type, element, data) {
             c.conditionify('render', name, type, element, data);
         };
-        
-        this.renderAddNewCondition = function (name) {
-            c.conditionify('renderAddNewCondition', name);
-        };
     };
 
     var handleBar = function(templates) {
         var self = this;
-        
+
         Handlebars.registerHelper('setIndex', function (value) {
             this.outerindex = Number(value);
         });
@@ -167,7 +171,6 @@
             return $el.html();
         });
         window.Handlebars.registerHelper('emptyCondition', function (name) {
-            templates.renderAddNewCondition(name);
             return "";
         });
         window.Handlebars.registerHelper('editExisting', function (name) {
@@ -184,42 +187,17 @@
                     callback(data);
                 },
                 width: withWidth,
-                source: function(feature) {
-                    var data = null;
-                    jQuery.ajaxSetup({ async: false });
-                    $.get('/api/features/?id=' + feature).done(function (d) {
-                        data = d;
-                    });
-                    jQuery.ajaxSetup({ async: true });
-                    return data;
-                }
+                source: featureController.edit.get
             });
         };
 
         var createEditForm = function (usingItem) {
             return createForm(usingItem, $(window).width() - 180,
-            function(data) {
-                editPanelHub.server.editItem(
-                {
-                    name: data.name,
-                    description: data.description,
-                    link: data.link
-                });
-                // TODO: editPanelHub.server.changeConditions(data.name, data.conditions);
-            });
+                featureController.edit.post);
         };
 
         var createNewForm = function (usingItem) {
-            return createForm(usingItem, $(window).width() / 2, function (data) {
-                boardHub.server.addNewItem(
-                    {
-                        name: data.name,
-                        team: data.team,
-                        description: data.description,
-                        link: data.link,
-                        conditions: data.conditions
-                    });
-            });
+            return createForm(usingItem, $(window).width() / 2, featureController.add.post);
         };
 
         var formEdit = createEditForm($('[data-edit-item="edit"]'));

@@ -5,14 +5,8 @@
 
     using FeatureBee.Server.Domain.Infrastruture;
 
-    public class FeatureConditionsChangedEvent : IDomainEvent
+    public class FeatureConditionsUpdatedEvent: IDomainEvent
     {
-        public FeatureConditionsChangedEvent(string name, List<Condition> conditions)
-        {
-            Name = name;
-            Conditions = conditions;
-        }
-
         public Guid AggregateId { get; set; }
         public int Version { get; set; }
         public string Name { get; set; }
