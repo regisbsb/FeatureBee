@@ -49,7 +49,7 @@
     };
 
     editPanelHub.client.conditionsChanged = function (item) {
-        $.Comm('page', 'conditionsChanged:' + item).publish(item);
+        $.Comm('page', 'itemChanged').publish(item);
     };
 
 
