@@ -55,6 +55,13 @@
     display: block;
 }
 
+.feature-bee-loading {
+    position: absolute;
+    right: 60px;
+    bottom: 60px;
+    cursor: pointer;
+}
+
 .feature-bee-show {
     position: absolute;
     right: 60px;

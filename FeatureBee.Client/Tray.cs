@@ -11,11 +11,12 @@
     {
         public static HtmlString RenderIcon()
         {
-            if (!FeatureBeeBuilder.Context.ShowTrayIconOnPages)
+            if ((HttpContext.Current == null || HttpContext.Current.Request.QueryString["featureTray"] != "show") &&
+                !FeatureBeeBuilder.Context.ShowTrayIconOnPages)
             {
                 return new HtmlString(string.Empty);
             }
-
+            
             var full = new StringBuilder();
             full.AppendFormat("<style type=\"text/css\">{0}</style>", LoadResource("FeatureBee.TrayIcon.featureBeeTrayIcon.css"));
             full.Append(LoadResource("FeatureBee.TrayIcon.featureBeeTrayIcon.html"));

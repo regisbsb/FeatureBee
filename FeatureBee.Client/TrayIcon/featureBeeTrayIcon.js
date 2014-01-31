@@ -261,10 +261,13 @@
                 }
             });
 
+            $('.feature-bee-loading').hide();
+            $('.feature-bee-show').show('medium');
             $('.feature-bee-tray-container').featureBeeTrayIcon();
-
         });
     };
-
-    loadRequiredScripts(main);
+    $('.feature-bee-show').hide();
+    $('.feature-bee-panel').hide();
+    $('.feature-bee-loading').show();
+    setTimeout(function() { loadRequiredScripts(main); }, 3000);
 })();
