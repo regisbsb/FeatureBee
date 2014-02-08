@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -10,16 +11,15 @@ namespace FeatureBee
     {
         public void ProcessRequest(HttpContext context)
         {
-            switch (context.Request.Path.ToLowerInvariant())
+            if (context.Request.Path.ToLowerInvariant().EndsWith("/features"))
             {
-                case "/featurebee.axd/features":
-                    context.Response.Write(GetFeaturesAsJson());
-                    context.Response.ContentType = "application/json";
-                    context.Response.StatusCode = (int)HttpStatusCode.OK;
-                    break;
-                default:
-                    context.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
-                    break;
+                context.Response.Write(GetFeaturesAsJson());
+                context.Response.ContentType = "application/json";
+                context.Response.StatusCode = (int)HttpStatusCode.OK;
+            }
+            else
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
             }
         }
 

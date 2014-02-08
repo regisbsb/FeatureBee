@@ -6,6 +6,7 @@
     using System.Web;
 
     using FeatureBee.WireUp;
+    using FeatureBee.ConfigSection;
 
     public static class Tray
     {
@@ -23,6 +24,9 @@
             full.AppendFormat(
                 "<script type\"text/javascript\">{0}</script>",
                 LoadResource("FeatureBee.TrayIcon.featureBeeTrayIcon.js"));
+
+            var featuresUrl = FeatureBeeConfiguration.GetSection().Tray.HandlerPath + "/features";
+            full.Replace("{{FEATURES_URL}}", featuresUrl);
 
             return new HtmlString(full.ToString());
         }

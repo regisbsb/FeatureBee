@@ -101,7 +101,7 @@
     /******** Our main function ********/
     var main = function () {
         jQueryFeatureBee(document).ready(function ($) {
-            var featuresUrl = '/featurebee.axd/features';
+            var featuresUrl = '{{FEATURES_URL}}';
             var cookieName = "featureBee";
 
             var loadFeatures = function (onComplete) {

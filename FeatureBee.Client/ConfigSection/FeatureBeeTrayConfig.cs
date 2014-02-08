@@ -10,5 +10,12 @@
             get { return (bool) this["showTrayIconOnPages"]; }
             set { this["showTrayIconOnPages"] = value; }
         }
+
+        [ConfigurationProperty("handlerPath", DefaultValue = "/featurebee.axd", IsRequired = false)]
+        public string HandlerPath
+        {
+            get { return (string)this["handlerPath"]; }
+            set { this["handlerPath"] = value; }
+        }
     }
 }
