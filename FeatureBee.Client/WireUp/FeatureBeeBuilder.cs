@@ -7,6 +7,7 @@
 
     using FeatureBee.ConfigSection;
     using FeatureBee.Evaluators;
+    using FeatureBee.UpdateModes;
 
     public class FeatureBeeBuilder
     {
@@ -49,7 +50,7 @@
         public void UseConfig()
         {
             var config = FeatureBeeConfiguration.GetSection();
-            Context.FeatureRepository = new PullFeatureRepository(config.Server.Url);
+            Context.FeatureRepository = UpdateModeFactory.Get(config.Server.UpdateMode, config.Server.Url);
 
             Context.ShowTrayIconOnPages = config.Tray.ShowTrayIconOnPages;
             Context.TrafficDistributionCookie = config.Settings.TrafficDistributionCookie;

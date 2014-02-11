@@ -266,6 +266,7 @@
             $('.feature-bee-tray-container').featureBeeTrayIcon();
         });
     };
+
     $('.feature-bee-show').hide();
     $('.feature-bee-panel').hide();
     $('.feature-bee-loading').show();
