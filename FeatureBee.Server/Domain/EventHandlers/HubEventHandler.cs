@@ -1,6 +1,11 @@
 namespace FeatureBee.Server.Domain.EventHandlers
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+
     using FeatureBee.Server.Controllers;
+    using FeatureBee.Server.Domain.EventHandlers.HubHandlers;
     using FeatureBee.Server.Domain.Infrastruture;
     using FeatureBee.Server.Domain.Models;
 
@@ -10,42 +15,23 @@ namespace FeatureBee.Server.Domain.EventHandlers
 
     public class HubEventHandler : IEventHandler
     {
+        private readonly IEnumerable<IHubBroadcasterFor> hubBroadcaster;
+
+        public HubEventHandler(IEnumerable<IHubBroadcasterFor> hubBroadcaster)
+        {
+            this.hubBroadcaster = hubBroadcaster;
+        }
+
         public void Handle(EventMessage @event)
         {
-            if (@event.Body is FeatureCreatedEvent)
+            var hubBroadcasterFor = this.hubBroadcaster.FirstOrDefault(_ => _.ForType == @event.Body.GetType());
+            if (hubBroadcasterFor != null)
             {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                hub.Clients.All.featureCreated((@event.Body as FeatureCreatedEvent).Name);
+                hubBroadcasterFor.Broadcast(@event.Body);
             }
-            if (@event.Body is FeatureReleasedForEveryoneEvent)
+            else
             {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                hub.Clients.All.featureReleasedForEveryone((@event.Body as FeatureReleasedForEveryoneEvent).Name);
-            }
-            if (@event.Body is FeatureReleasedWithConditionsEvent)
-            {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                hub.Clients.All.featureReleasedWithConditions((@event.Body as FeatureReleasedWithConditionsEvent).Name);
-            }
-            if (@event.Body is FeatureRollbackedEvent)
-            {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<BoardHub>();
-                hub.Clients.All.featureRollbacked((@event.Body as FeatureRollbackedEvent).Name);
-            }
-            if (@event.Body is FeatureDescriptionUpdatedEvent)
-            {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
-                hub.Clients.All.descriptionUpdated((@event.Body as FeatureDescriptionUpdatedEvent).Name);
-            }
-            if (@event.Body is FeatureLinkedToTicketEvent)
-            {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
-                hub.Clients.All.linkedToTicket((@event.Body as FeatureLinkedToTicketEvent).Name);
-            }
-            if (@event.Body is FeatureConditionsUpdatedEvent)
-            {
-                var hub = GlobalHost.ConnectionManager.GetHubContext<EditPanelHub>();
-                hub.Clients.All.conditionsChanged((@event.Body as FeatureConditionsUpdatedEvent).Name);
+                Debug.WriteLine("No broadcaster found for event {0}", @event.GetType());
             }
         }
     }

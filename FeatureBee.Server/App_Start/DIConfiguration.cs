@@ -1,6 +1,8 @@
 ﻿namespace FeatureBee.Server
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     using Autofac;
@@ -10,6 +12,7 @@
 
     using FeatureBee.Server.Domain.ApplicationServices;
     using FeatureBee.Server.Domain.EventHandlers;
+    using FeatureBee.Server.Domain.EventHandlers.HubHandlers;
     using FeatureBee.Server.Domain.Infrastruture;
 
     using NEventStore;
@@ -41,10 +44,16 @@
                 .Where(t => t.Name.EndsWith("Repository", StringComparison.Ordinal))
                 .AsImplementedInterfaces();
 
+            
             builder.RegisterType<FeatureApplicationServices>().AsImplementedInterfaces();
             builder.RegisterType<CommandSender>().As<ICommandSender>();
 
-            var eventHandlers = new IEventHandler[] {new DatabaseEventHandler(), new HubEventHandler()};
+            var innerBuilder = new ContainerBuilder();
+            Func<Type, bool> isSubClassOfBroadcasterInterface = _ => typeof(IHubBroadcasterFor).IsAssignableFrom(_);
+            innerBuilder.RegisterTypes(ThisAssembly.GetTypes().Where(isSubClassOfBroadcasterInterface).ToArray())
+                .As<IHubBroadcasterFor>();
+            
+            var eventHandlers = new IEventHandler[] { new DatabaseEventHandler(), new HubEventHandler(innerBuilder.Build().Resolve<IEnumerable<IHubBroadcasterFor>>()) };
             var dispatcher = new NEventStoreDispatcher(eventHandlers);
 
             var nEventStore =

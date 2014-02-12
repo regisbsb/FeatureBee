@@ -241,6 +241,15 @@
     <Compile Include="Domain\ApplicationServices\UpdateDescriptionCommand.cs" />
     <Compile Include="Domain\EventHandlers\DatabaseEventHandler.cs" />
     <Compile Include="Domain\EventHandlers\HubEventHandler.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureConditionsUpdatedEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureCreatedEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureDescriptionUpdatedEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureLinkedToTicketEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureReleasedForEveryoneEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureReleasedWithConditionsEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureRollbackedEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\HubBroadcasterFor.cs" />
+    <Compile Include="Domain\EventHandlers\HubHandlers\IHubBroadcasterFor.cs" />
     <Compile Include="Domain\Infrastruture\BaseAggregateRoot.cs" />
     <Compile Include="Domain\Infrastruture\DomainRepository.cs" />
     <Compile Include="Domain\Infrastruture\ICommandSender.cs" />
