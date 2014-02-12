@@ -4,12 +4,8 @@ namespace FeatureBee.Server.Domain.EventHandlers
     using System.Diagnostics;
     using System.Linq;
 
-    using FeatureBee.Server.Controllers;
     using FeatureBee.Server.Domain.EventHandlers.HubHandlers;
     using FeatureBee.Server.Domain.Infrastruture;
-    using FeatureBee.Server.Domain.Models;
-
-    using Microsoft.AspNet.SignalR;
 
     using NEventStore;
 
