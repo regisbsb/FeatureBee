@@ -47,23 +47,4 @@ The TrayIcon is displayed on the page, and can be used to turn features off and 
 3. Make your changes (in it´s own branch)
 4. Send PullRequest
 
-
-## Deploying a new release
-
-When we're ready to deploy a new release, we need to do the following steps.
-
-1. Create a branch named `release`.
-2. Update [`ReleaseNotes.md`](ReleaseNotes.md). Note that the format is
-important as we parse the version out and use that for the NuGet packages.
-3. Push the branch to GitHub and create a pull request. This will kick off the
-MyGet build of the NuGet package with this new version.
-4. Run a local build to create the server package.
-5. Test!
-6. When you're satisfied with this release, push the package 
-[from MyGet](https://www.myget.org/feed/featurebee-ci/package/FeatureBee) to NuGet.
-7. Create a tag `git tag v#.#.#`. For example, to create a tag for 1.0.0 
-`git tag v1.0.0`
-8. Push the tag to the server. `git push --tags`
-9. Accept the pull request.
-10. Create a [new release](https://github.com/autoscout24/featurebee/releases/new)
-using the tag you just created and pasting in the release notes you just wrote up. Don´t forget to attach the FeatureBee.Server.v#.#.#.zip file from your local `deploy` folder.
+[See the wiki for more information](https://github.com/AutoScout24/FeatureBee/wiki/) 
