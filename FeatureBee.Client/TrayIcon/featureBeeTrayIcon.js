@@ -201,7 +201,7 @@
 
                 _removeFromCookie: function (name) {
                     var cookieValue = $.cookie(cookieName).replace("#" + name + "#", "#");
-                    if (cookieValue.replace(/.*#$/, "") === "") {
+                    if (cookieValue.replace(/^#*$/, "") === "") {
                         cookieValue = null;
                     }
 
