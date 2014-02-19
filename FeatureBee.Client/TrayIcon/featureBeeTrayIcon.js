@@ -205,7 +205,7 @@
                         cookieValue = null;
                     }
 
-                    $.cookie(cookieName, cookieValue);
+                    $.cookie(cookieName, cookieValue, { path: '/' });
                 },
 
                 _addToCookie: function (name) {
