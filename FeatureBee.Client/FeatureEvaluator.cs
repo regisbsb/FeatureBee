@@ -15,9 +15,9 @@ namespace FeatureBee
             }
 
             var godModeFeatures = FeatureBeeBuilder.Context.GodModeFeatures;
-            if (godModeFeatures.Any(x => x.Equals(featureName, StringComparison.InvariantCultureIgnoreCase)))
+            if (godModeFeatures.Any(x => x.Key.Equals(featureName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                return true;
+                return godModeFeatures.First(x => x.Key.Equals(featureName, StringComparison.InvariantCultureIgnoreCase)).Value;
             }
 
             var evaluators = FeatureBeeBuilder.Context.Evaluators;

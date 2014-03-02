@@ -108,9 +108,9 @@
                 $.get(featuresUrl + '?t=' + new Date().getTime()).done(function (features) {
                     var featureBeeCookie = $.cookie(cookieName);
                     $.each(features, function (index, value) {
-                        if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "#") !== -1)
+                        if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "=true#") !== -1)
                             value.GodModeState = "On";
-                        else {
+                        else if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "=false#") !== -1) {
                             value.GodModeState = "Off";
                         }
                     });
@@ -156,12 +156,12 @@
                             self.scrollContent.find('[data-toggle-target]').click(function () {
                                 var state = $(this).attr("data-toogle-state");
                                 if (state == toggleOn) {
-                                    self._removeFromCookie($(this).attr("data-toggle-target"));
+                                    self._removeByCookie($(this).attr("data-toggle-target"));
                                     $(this).attr("data-toogle-state", toggleOff);
                                     $(this).removeClass(toggleOn).addClass(toggleOff);
                                     $(this).text(toggleOff);
                                 } else {
-                                    self._addToCookie($(this).attr("data-toggle-target"));
+                                    self._addByCookie($(this).attr("data-toggle-target"));
                                     $(this).attr("data-toogle-state", toggleOn);
                                     $(this).removeClass(toggleOff).addClass(toggleOn);
                                     $(this).text(toggleOn);
@@ -199,22 +199,31 @@
                     }
                 },
 
-                _removeFromCookie: function (name) {
-                    var cookieValue = $.cookie(cookieName).replace("#" + name + "#", "#");
+                _cleanCookie : function(name) {
+                    var cookieValue = $.cookie(cookieName).replace("#" + name + "=true#", "#");
+                    if (cookieValue == null) return null;
+
+                    cookieValue = cookieValue.replace("#" + name + "=false#", "#");
                     if (cookieValue.replace(/^#*$/, "") === "") {
                         cookieValue = null;
                     }
+                    return cookieValue;
+                },
 
+                _writeCookie: function (name, enabled) {
+                    var cookieValue = this._cleanCookie(name);
+                    if (cookieValue == null)
+                        cookieValue = "#";
+                    cookieValue += name + "=" + enabled + "#";
                     $.cookie(cookieName, cookieValue, { path: '/' });
                 },
 
-                _addToCookie: function (name) {
-                    var value = $.cookie(cookieName);
-                    if (!value)
-                        value = "#";
-                    value = value.slice(0, -1);
-                    value += "#" + name + "#";
-                    $.cookie(cookieName, value, { path: '/' });
+                _removeByCookie: function (name) {
+                    this._writeCookie(name, false);
+                },
+
+                _addByCookie: function (name) {
+                    this._writeCookie(name, true);
                 },
 
                 _create: function() {

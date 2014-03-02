@@ -25,21 +25,45 @@ namespace FeatureBee.WireUp
             get { return _httpContextFunc.Invoke().IsDebuggingEnabled; }
         }
 
-        public List<string> GodModeFeatures
+        public GodModeFeatureCollection GodModeFeatures
         {
             get
             {
                 var request = _httpContextFunc.Invoke().Request;
 
                 if (request.Cookies == null) 
-                { 
-                    return new List<string>();
+                {
+                    return new GodModeFeatureCollection();
                 }
 
                 var cookie = request.Cookies["FeatureBee"];
                 var value = cookie == null ? "" : HttpUtility.UrlDecode(cookie.Value) ?? "";
 
-                return value.Split('#').ToList();
+                var godModeCollection = new GodModeFeatureCollection();
+                value.Split('#').ToList().ForEach(
+                    feature =>
+                    {
+                        var name = feature.Split('=').First();
+                        var state = feature.Split('=').Last();
+                        
+                        // downwards compatibility
+                        if (name == state)
+                        {
+                            state = "true";
+                        }
+
+                        bool stateAsBool;
+                        bool.TryParse(state, out stateAsBool);
+                        if (godModeCollection.ContainsKey(name))
+                        {
+                            godModeCollection[name] = stateAsBool;
+                        }
+                        else
+                        {
+                            godModeCollection.Add(name, stateAsBool);
+                        }
+                    });
+                return godModeCollection;
             }
         }
     }

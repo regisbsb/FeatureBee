@@ -69,6 +69,7 @@
     <Compile Include="ConfigSection\FeatureBeeConfiguration.cs" />
     <Compile Include="ConfigSection\FeatureBeeServerConfig.cs" />
     <Compile Include="ConfigSection\FeatureBeeTrayConfig.cs" />
+    <Compile Include="WireUp\GodModeFeatureCollection.cs" />
     <Compile Include="WireUp\UpdateMode.cs" />
     <Compile Include="Evaluators\BrowserConditionEvaluator.cs" />
     <Compile Include="Evaluators\ClaimConditionEvaluator.cs" />
