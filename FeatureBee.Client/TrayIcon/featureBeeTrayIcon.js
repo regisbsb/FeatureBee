@@ -110,7 +110,7 @@
                     $.each(features, function (index, value) {
                         if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "=true#") !== -1)
                             value.GodModeState = "On";
-                        else if (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "=false#") !== -1) {
+                        else if (!featureBeeCookie || (featureBeeCookie && featureBeeCookie.indexOf("#" + value.Name + "=false#") !== -1)) {
                             value.GodModeState = "Off";
                         }
                     });
