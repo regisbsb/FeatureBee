@@ -102,10 +102,10 @@
             _conditionEvaluatorsMock2.Setup(x => x.IsFulfilled(It.IsAny<string[]>())).Returns(secondEvaluator);
         }
 
-        [Given(@"I have enabled the GodMode")]
-        public void GivenIHaveEnabledTheGodMode()
+        [Given(@"I have (.*) the GodMode")]
+        public void GivenIHaveEnabledTheGodMode(string mode)
         {
-            var godModeCookie = new HttpCookie("FeatureBee", "SampleFeature");
+            var godModeCookie = new HttpCookie("FeatureBee", mode == "enabled" ? "#SampleFeature=true#" : "#SampleFeature=false#");
             var request = Mock.Get(_httpContextMock.Request);
             request.SetupGet(r => r.Cookies).Returns(new HttpCookieCollection());
             _httpContextMock.Request.Cookies.Add(godModeCookie);
@@ -125,10 +125,10 @@
             _featureIsEnabled = Feature.IsEnabled("SampleFeature");
         }
 
-        [Then(@"the (.*)")]
-        public void ThenTheFeatureIsEnabled(bool featureIsEnabled)
+        [Then(@"the feature is (.*)")]
+        public void ThenTheFeatureIsEnabled(string featureIsEnabled)
         {
-            Assert.AreEqual(featureIsEnabled, _featureIsEnabled);
+            Assert.AreEqual(featureIsEnabled == "enabled", this._featureIsEnabled);
         }
 
         [Then(@"(.*) to evaluate the state")]

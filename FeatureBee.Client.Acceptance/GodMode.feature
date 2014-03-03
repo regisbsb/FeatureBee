@@ -10,10 +10,22 @@ Scenario Outline: Conditions are not fulfilled but GodMode is enabled
 	Given I have a feature in state <state>
 		And I have enabled the GodMode
 	When evaluating the feature state
-	Then the <feature is enabled>
+	Then the feature is enabled
 
 Examples: 
-| state          | feature is enabled |
-| In Development | true               |
-| Under Test     | true               |
-| Released       | true               |
+| state          | 
+| In Development | 
+| Under Test     | 
+| Released       | 
+
+Scenario Outline: Conditions are not fulfilled but GodMode is disabled
+	Given I have a feature in state <state>
+		And I have disabled the GodMode
+	When evaluating the feature state
+	Then the feature is disabled
+
+Examples: 
+| state          | 
+| In Development | 
+| Under Test     | 
+| Released       | 
