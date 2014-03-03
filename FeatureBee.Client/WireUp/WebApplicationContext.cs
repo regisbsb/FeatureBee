@@ -46,12 +46,6 @@ namespace FeatureBee.WireUp
                         var name = feature.Split('=').First();
                         var state = feature.Split('=').Last();
                         
-                        // downwards compatibility
-                        if (name == state)
-                        {
-                            state = "true";
-                        }
-
                         bool stateAsBool;
                         bool.TryParse(state, out stateAsBool);
                         if (godModeCollection.ContainsKey(name))
