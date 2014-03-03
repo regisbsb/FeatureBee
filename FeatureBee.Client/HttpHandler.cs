@@ -26,7 +26,7 @@ namespace FeatureBee
         private static string GetFeaturesAsJson()
         {
             var serializer = new JavaScriptSerializer();
-            var features = FeatureBeeBuilder.Context.FeatureRepository.GetFeatures().Where(x => x.State != "Released");
+            var features = FeatureBeeBuilder.Context.FeatureRepository.GetFeatures();
             return serializer.Serialize(features);
         }
 
