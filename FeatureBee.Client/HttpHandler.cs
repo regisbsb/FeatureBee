@@ -1,33 +1,19 @@
-﻿using System.Configuration;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Web;
-using System.Web.Script.Serialization;
-using FeatureBee.WireUp;
 
 namespace FeatureBee
 {
+    using System.Linq;
+
+    using FeatureBee.HttpHandlerRouting;
+
     public class HttpHandler: IHttpHandler
     {
         public void ProcessRequest(HttpContext context)
         {
-            if (context.Request.Path.ToLowerInvariant().EndsWith("/features"))
-            {
-                context.Response.Write(GetFeaturesAsJson());
-                context.Response.ContentType = "application/json";
-                context.Response.StatusCode = (int)HttpStatusCode.OK;
-            }
-            else
-            {
-                context.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
-            }
-        }
+            var routeHandlers = new IHandleARoute[] { new AllFeatures(), new FeatureState(), new NoRouteFound() };
 
-        private static string GetFeaturesAsJson()
-        {
-            var serializer = new JavaScriptSerializer();
-            var features = FeatureBeeBuilder.Context.FeatureRepository.GetFeatures();
-            return serializer.Serialize(features);
+            routeHandlers.First(_ => _.CanHandleRoute(context.Request.Path)).DoHandleRoute(context);
         }
 
         public bool IsReusable { get { return true; }}

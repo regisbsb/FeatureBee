@@ -34,8 +34,26 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Machine.Fakes">
+      <HintPath>..\packages\Machine.Fakes.2.0.0\lib\net40\Machine.Fakes.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Fakes.Adapters.Moq">
+      <HintPath>..\packages\Machine.Fakes.Moq.2.0.0\lib\net40\Machine.Fakes.Adapters.Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications">
+      <HintPath>..\packages\Machine.Specifications.0.6.2\lib\net45\Machine.Specifications.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications.Clr4">
+      <HintPath>..\packages\Machine.Specifications.0.6.2\lib\net45\Machine.Specifications.Clr4.dll</HintPath>
+    </Reference>
+    <Reference Include="Machine.Specifications.Should">
+      <HintPath>..\packages\Machine.Specifications.0.6.2\lib\net45\Machine.Specifications.Should.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Client">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.0.2\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1312.1622\lib\net40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -60,6 +78,16 @@
     <Compile Include="FeatureEvaluator.cs" />
     <Compile Include="ConfigSection\FeatureBeeSettingsConfig.cs" />
     <Compile Include="Evaluators\TrafficDistributionConditionEvaluator.cs" />
+    <Compile Include="HttpHandlerRouting\AllFeatures.cs" />
+    <Compile Include="HttpHandlerRouting\AllFeaturesSpecs.cs">
+      <DependentUpon>AllFeatures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HttpHandlerRouting\FeatureState.cs" />
+    <Compile Include="HttpHandlerRouting\FeatureStateSpecs.cs">
+      <DependentUpon>FeatureState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HttpHandlerRouting\IHandleARoute.cs" />
+    <Compile Include="HttpHandlerRouting\NoRouteFound.cs" />
     <Compile Include="UpdateModes\Push.cs" />
     <Compile Include="UpdateModes\Pull.cs" />
     <Compile Include="UpdateModes\Receiving\HubClient.cs" />
