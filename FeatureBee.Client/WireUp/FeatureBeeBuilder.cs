@@ -2,7 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
+    using System.Text;
     using System.Web;
 
     using FeatureBee.ConfigSection;
@@ -58,12 +61,36 @@
 
         private static List<IConditionEvaluator> LoadConditionEvaluators()
         {
-            var types = typeof (FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator).ToList();
-            return types.Select(_ =>
+            try
             {
-                var constructor = _.GetConstructor(Type.EmptyTypes);
-                return constructor != null ? (IConditionEvaluator) constructor.Invoke(null) : null;
-            }).ToList();
+                var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator).ToList();
+                return types.Select(_ =>
+                {
+                    var constructor = _.GetConstructor(Type.EmptyTypes);
+                    return constructor != null ? (IConditionEvaluator)constructor.Invoke(null) : null;
+                }).ToList();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                var sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    if (exSub is FileNotFoundException)
+                    {
+                        var exFileNotFound = exSub as FileNotFoundException;
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+               
+                throw new Exception("Conditions could not be loaded. See inner exception for details",
+                    new Exception(sb.ToString(), ex));
+            }
         }
 
         private static bool TypeIsConditionEvaluator(Type type)
