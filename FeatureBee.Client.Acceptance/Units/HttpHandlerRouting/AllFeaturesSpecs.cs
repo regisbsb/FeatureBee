@@ -1,20 +1,22 @@
-﻿namespace FeatureBee.HttpHandlerRouting
+﻿namespace FeatureBee.Acceptance.Units.HttpHandlerRouting
 {
+    using FeatureBee.HttpHandlerRouting;
+
     using Machine.Fakes;
     using Machine.Specifications;
 
-    public class FeatureStateSpecs
+    public class AllFeaturesSpecs
     {
-        public class When_Opening_The_state_For_A_Single_Features : WithSubject<FeatureState>
+        public class When_Opening_The_Url_For_All_Features : WithSubject<AllFeatures>
         {
-            Because of = () => result = Subject.CanHandleRoute("/feature/state");
+            Because of = () => result = Subject.CanHandleRoute("/features");
 
             It should_confirm_that_it_can_handle_the_route = () => result.ShouldBeTrue();
 
             private static bool result;
         }
 
-        public class When_Opening_A_Different_Url : WithSubject<FeatureState>
+        public class When_Opening_A_Different_Url : WithSubject<AllFeatures>
         {
             Because of = () => result = Subject.CanHandleRoute("/different");
 
