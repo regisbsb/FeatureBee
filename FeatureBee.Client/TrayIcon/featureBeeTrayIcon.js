@@ -199,10 +199,10 @@
                     }
                 },
 
-                _cleanCookie : function(name) {
-                    var cookieValue = $.cookie(cookieName).replace("#" + name + "=true#", "#");
+                _cleanCookie: function (name) {
+                    var cookieValue = $.cookie(cookieName);
                     if (cookieValue == null) return null;
-
+                    cookieValue = cookieValue.replace("#" + name + "=true#", "#");
                     cookieValue = cookieValue.replace("#" + name + "=false#", "#");
                     if (cookieValue.replace(/^#*$/, "") === "") {
                         cookieValue = null;
