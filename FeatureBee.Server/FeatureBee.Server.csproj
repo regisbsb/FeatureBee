@@ -17,7 +17,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode />
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
@@ -226,6 +226,7 @@
     </Compile>
     <Compile Include="Controllers\FeatureBeeApiController.cs" />
     <Compile Include="Controllers\FeatureBeeController.cs" />
+    <Compile Include="Controllers\FeatureHistoryApiController.cs" />
     <Compile Include="Controllers\HealthCheckController.cs" />
     <Compile Include="Controllers\JasmineController.cs" />
     <Compile Include="Domain\ApplicationServices\UpdateConditionsCommand.cs" />
@@ -250,6 +251,15 @@
     <Compile Include="Domain\EventHandlers\DatabaseHandlers\BroadcastFeatureRollbackedEvent.cs" />
     <Compile Include="Domain\EventHandlers\DatabaseHandlers\DatabaseBroadcasterFor.cs" />
     <Compile Include="Domain\EventHandlers\DatabaseHandlers\IDatabaseBroadcasterFor.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryEventHandler.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryHandlers\BroadcastFeatureConditionsUpdatedEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryHandlers\BroadcastFeatureCreatedEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryHandlers\BroadcastFeatureReleasedForEveryoneEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryHandlers\BroadcastFeatureReleasedWithConditionsEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryHandlers\BroadcastFeatureRemovedEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryHandlers\BroadcastFeatureRollbackedEvent.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryHandlers\HistoryBroadcasterFor.cs" />
+    <Compile Include="Domain\EventHandlers\HistoryHandlers\IHistoryBroadcasterFor.cs" />
     <Compile Include="Domain\EventHandlers\HubEventHandler.cs" />
     <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureConditionsUpdatedEvent.cs" />
     <Compile Include="Domain\EventHandlers\HubHandlers\BroadcastFeatureCreatedEvent.cs" />
@@ -284,6 +294,7 @@
     <Compile Include="Models\ConditionViewModel.cs" />
     <Compile Include="Models\FeatureBeeContext.cs" />
     <Compile Include="Models\FeatureBeeEnvironmentViewModel.cs" />
+    <Compile Include="Models\FeatureHistoryViewModel.cs" />
     <Compile Include="Models\FeatureViewModel.cs" />
     <Compile Include="Models\PersistableScalarCollection.cs" />
     <Compile Include="Models\PersistableStringCollection.cs" />

@@ -15,6 +15,7 @@ namespace FeatureBee.Server.Models
         }
 
         public DbSet<FeatureViewModel> Features { get; set; }
+        public DbSet<FeatureHistoryViewModel> FeatureHistory { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

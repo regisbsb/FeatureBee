@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
 
     using NEventStore;
 
@@ -39,7 +40,9 @@
 
                 foreach (var @event in aggregateRoot.GetChanges())
                 {
-                    stream.Add(new EventMessage {Body = @event});
+                    var uncommittedEvent = new EventMessage {Body = @event };
+                    uncommittedEvent.Headers.Add("UserId", Thread.CurrentPrincipal.Identity.Name);
+                    stream.Add(uncommittedEvent);
                     stream.CommitChanges(Guid.NewGuid());
                 }
             }

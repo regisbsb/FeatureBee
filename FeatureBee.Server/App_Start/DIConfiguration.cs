@@ -13,6 +13,7 @@
     using FeatureBee.Server.Domain.ApplicationServices;
     using FeatureBee.Server.Domain.EventHandlers;
     using FeatureBee.Server.Domain.EventHandlers.DatabaseHandlers;
+    using FeatureBee.Server.Domain.EventHandlers.HistoryHandlers;
     using FeatureBee.Server.Domain.EventHandlers.HubHandlers;
     using FeatureBee.Server.Domain.Infrastruture;
 
@@ -50,18 +51,20 @@
             builder.RegisterType<CommandSender>().As<ICommandSender>();
 
             var innerBuilder = new ContainerBuilder();
-            Func<Type, bool> isSubClassOfHubBroadcasterInterface = _ => typeof(IHubBroadcasterFor).IsAssignableFrom(_);
-            Func<Type, bool> isSubClassOfDatabaseBroadcasterInterface = _ => typeof(IDatabaseBroadcasterFor).IsAssignableFrom(_);
             innerBuilder.RegisterTypes(ThisAssembly.GetTypes().Where(_ => typeof(IHubBroadcasterFor).IsAssignableFrom(_)).ToArray())
                 .As<IHubBroadcasterFor>();
 
             innerBuilder.RegisterTypes(ThisAssembly.GetTypes().Where(_ => typeof(IDatabaseBroadcasterFor).IsAssignableFrom(_)).ToArray())
                 .As<IDatabaseBroadcasterFor>();
 
+            innerBuilder.RegisterTypes(ThisAssembly.GetTypes().Where(_ => typeof(IHistoryBroadcasterFor).IsAssignableFrom(_)).ToArray())
+                .As<IHistoryBroadcasterFor>();
+
             IContainer innerContainer = innerBuilder.Build();
             var eventHandlers = new IEventHandler[] { 
                 new DatabaseEventHandler(innerContainer.Resolve<IEnumerable<IDatabaseBroadcasterFor>>()), 
-                new HubEventHandler(innerContainer.Resolve<IEnumerable<IHubBroadcasterFor>>()) 
+                new HubEventHandler(innerContainer.Resolve<IEnumerable<IHubBroadcasterFor>>()),
+                new HistoryEventHandler(innerContainer.Resolve<IEnumerable<IHistoryBroadcasterFor>>()) 
             };
             var dispatcher = new NEventStoreDispatcher(eventHandlers);
 

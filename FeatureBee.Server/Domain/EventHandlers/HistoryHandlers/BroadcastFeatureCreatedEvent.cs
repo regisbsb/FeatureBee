@@ -1,0 +1,24 @@
+namespace FeatureBee.Server.Domain.EventHandlers.HistoryHandlers
+{
+    using System;
+
+    using FeatureBee.Server.Domain.Models;
+    using FeatureBee.Server.Models;
+
+    using NEventStore;
+
+    class BroadcastFeatureCreatedEvent : HistoryBroadcasterFor<FeatureCreatedEvent>
+    {
+        public override void Broadcast(FeatureBeeContext context, EventMessage eventMessage)
+        {
+            context.FeatureHistory.Add(new FeatureHistoryViewModel
+            {
+                Name = (eventMessage.Body as FeatureCreatedEvent).Name,
+                Action = "Created",
+                Payload = "",
+                Date = DateTime.Now,
+                UserId = eventMessage.Headers["UserId"].ToString()
+            });
+        }
+    }
+}
