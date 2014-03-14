@@ -2,6 +2,7 @@ namespace FeatureBee.UpdateModes
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Net;
     using System.Runtime.Caching;
     using System.Web.Script.Serialization;
@@ -54,9 +55,9 @@ namespace FeatureBee.UpdateModes
                 var result = this._webClient.DownloadString(this._featuresUri);
                 features = this.Deserialize(result);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-                // TODO: Introduce logging interface and log exception
+                Logger.Log(TraceEventType.Error, "Failed to load features from url {0}. Exception: {1}", _featuresUri, exception);
             }
 
             return features;

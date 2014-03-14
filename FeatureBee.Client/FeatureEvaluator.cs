@@ -1,6 +1,7 @@
 namespace FeatureBee
 {
     using System;
+    using System.Diagnostics;
     using System.Linq;
 
     using FeatureBee.WireUp;
@@ -17,7 +18,10 @@ namespace FeatureBee
             var godModeFeatures = FeatureBeeBuilder.Context.GodModeFeatures;
             if (godModeFeatures.Any(x => x.Key.Equals(featureName, StringComparison.InvariantCultureIgnoreCase)))
             {
-                return godModeFeatures.First(x => x.Key.Equals(featureName, StringComparison.InvariantCultureIgnoreCase)).Value;
+                var godMode = godModeFeatures.First(x => x.Key.Equals(featureName, StringComparison.InvariantCultureIgnoreCase));
+                Logger.Log(TraceEventType.Verbose, "Feature {0} overwritten by GodMode. Value is {1}", featureName, godMode.Value);
+
+                return godMode.Value;
             }
 
             var evaluators = FeatureBeeBuilder.Context.Evaluators;
@@ -27,16 +31,19 @@ namespace FeatureBee
 
             if (feature == null)
             {
+                Logger.Log(TraceEventType.Verbose, "Feature {0} does not exist", featureName);
                 return false;
             }
 
             if (feature.State == "In Development" && !FeatureBeeBuilder.Context.IsDebugMode)
             {
+                Logger.Log(TraceEventType.Verbose, "Feature {0} is 'In Development' and debug mode is false", feature.Name);
                 return false;
             }
 
             if (feature.State == "Released")
             {
+                Logger.Log(TraceEventType.Verbose, "Feature {0} is 'Released'", feature.Name);
                 return true;
             }
 
@@ -52,6 +59,7 @@ namespace FeatureBee
                 isFulfilled = evaluator.IsFulfilled(condition.Values.ToArray());
                 if (!isFulfilled)
                 {
+                    Logger.Log(TraceEventType.Verbose, "Feature {0} does not fulfill condition {1} of type {2}", feature.Name, condition.Values, condition.Type);
                     return false;
                 }
             }

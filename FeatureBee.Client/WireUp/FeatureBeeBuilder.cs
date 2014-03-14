@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -50,13 +51,14 @@
             }
         }
 
-        public void UseConfig()
+        public FeatureBeeBuilder UseConfig()
         {
             var config = FeatureBeeConfiguration.GetSection();
             Context.FeatureRepository = UpdateModeFactory.Get(config.Server.UpdateMode, config.Server.Url);
 
             Context.ShowTrayIconOnPages = config.Tray.ShowTrayIconOnPages;
             Context.TrafficDistributionCookie = config.Settings.TrafficDistributionCookie;
+            return this;
         }
 
         private static List<IConditionEvaluator> LoadConditionEvaluators()
@@ -96,6 +98,31 @@
         private static bool TypeIsConditionEvaluator(Type type)
         {
             return type.GetInterface(typeof (IConditionEvaluator).Name) != null && !type.IsAbstract;
+        }
+
+        public void LogTo(Action<TraceEventType, string> action)
+        {
+            Logger.SetLogger(action);
+        }
+    }
+
+    internal static class Logger
+    {
+        private static Action<TraceEventType, string> logAction = (eventType, message) => Trace.Write(eventType + ": " + message);
+
+        public static void SetLogger(Action<TraceEventType, string> action)
+        {
+            logAction = action;
+        }
+
+        public static void Log(TraceEventType eventType, string message)
+        {
+            logAction(eventType, message);
+        }
+
+        public static void Log(TraceEventType eventType, string message, params object[] args)
+        {
+            logAction(eventType, string.Format(message, args));
         }
     }
 }

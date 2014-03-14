@@ -1,5 +1,7 @@
 ﻿namespace FeatureBee.Samples.Web
 {
+    using System;
+    using System.Diagnostics;
     using System.Web;
 
     using FeatureBee.WireUp;
@@ -8,12 +10,15 @@
     {
         public static void InitFor(HttpApplication app)
         {
-            FeatureBeeBuilder.ForWebApp().UseConfig();
+            FeatureBeeBuilder
+                .ForWebApp()
+                .UseConfig()
+                .LogTo(Logger());
+        }
 
-            //FeatureBeeBuilder.ForWebApp().UseConfig().LogTo((TraceEventType eventType, string message) =>
-            //{
-            //    Trace.WriteLine(eventType + ": " + message);
-            //} );
+        private static Action<TraceEventType, string> Logger()
+        {
+            return (eventType, message) => Trace.WriteLine(eventType + ": " + message);
         }
     }
 }
