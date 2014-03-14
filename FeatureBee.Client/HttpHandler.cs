@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Web;
+﻿using System.Web;
 
 namespace FeatureBee
 {
@@ -11,7 +10,7 @@ namespace FeatureBee
     {
         public void ProcessRequest(HttpContext context)
         {
-            var routeHandlers = new IHandleARoute[] { new AllFeatures(), new FeatureState(), new NoRouteFound() }; 
+            var routeHandlers = new IHandleARoute[] { new AllFeatures(), new NoRouteFound() }; 
 
             routeHandlers.First(_ => _.CanHandleRoute(context.Request.Path)).DoHandleRoute(context);
         }

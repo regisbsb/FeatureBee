@@ -64,7 +64,6 @@
     <Compile Include="ConfigSection\FeatureBeeSettingsConfig.cs" />
     <Compile Include="Evaluators\TrafficDistributionConditionEvaluator.cs" />
     <Compile Include="HttpHandlerRouting\AllFeatures.cs" />
-    <Compile Include="HttpHandlerRouting\FeatureState.cs" />
     <Compile Include="HttpHandlerRouting\IHandleARoute.cs" />
     <Compile Include="HttpHandlerRouting\NoRouteFound.cs" />
     <Compile Include="UpdateModes\Push.cs" />

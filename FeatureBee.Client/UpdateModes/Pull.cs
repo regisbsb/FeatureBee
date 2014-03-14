@@ -8,7 +8,7 @@ namespace FeatureBee.UpdateModes
 
     using FeatureBee.WireUp;
     
-    public class Pull : IFeatureRepository
+    internal class Pull : IFeatureRepository
     {
         private static readonly ObjectCache Cache = new MemoryCache("FeatureBee");
         private readonly Uri _featuresUri;

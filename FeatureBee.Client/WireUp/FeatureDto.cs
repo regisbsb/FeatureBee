@@ -12,5 +12,6 @@ namespace FeatureBee.WireUp
         public string Name { get; set; }
         public List<ConditionDto> Conditions { get; set; }
         public string State { get; set; }
+        public string Team { get; set; }
     }
 }

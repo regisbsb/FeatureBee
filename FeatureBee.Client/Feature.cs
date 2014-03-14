@@ -1,15 +1,19 @@
-﻿using System;
-
-namespace FeatureBee
+﻿namespace FeatureBee
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using FeatureBee.WireUp;
 
-    public static class Feature
+    public class Feature
     {
         private static Func<string, bool> evaluator = new FeatureEvaluator().IsEnabled;
+
+        public string Name { get; set; }
+        public string Team { get; set; }
+        public string State { get; set; }
+        public bool Enabled { get; set; }
 
         public static void InjectEvaluator(Func<string, bool> isEnabled)
         {
@@ -26,10 +30,16 @@ namespace FeatureBee
             return evaluator(featureName);
         }
 
-        public static IEnumerable<string> EnabledFeatures()
+        public static IEnumerable<Feature> AllFeatures()
         {
             var features = FeatureBeeBuilder.Context.FeatureRepository.GetFeatures();
-            return features.Where(feature => IsEnabled(feature.Name)).Select(feature => feature.Name);
+            return features.Select(feature => new Feature
+                                              {
+                                                  Name = feature.Name,
+                                                  State = feature.State,
+                                                  Team = feature.Team,
+                                                  Enabled = IsEnabled(feature.Name)
+                                              });
         }
     }
 }
