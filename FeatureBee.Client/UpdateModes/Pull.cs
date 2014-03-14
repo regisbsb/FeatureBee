@@ -56,7 +56,7 @@ namespace FeatureBee.UpdateModes
             }
             catch (Exception)
             {
-                // TODO: Introduce logging interface and log exception                
+                // TODO: Introduce logging interface and log exception
             }
 
             return features;

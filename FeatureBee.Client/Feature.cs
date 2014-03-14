@@ -2,6 +2,11 @@
 
 namespace FeatureBee
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using FeatureBee.WireUp;
+
     public static class Feature
     {
         private static Func<string, bool> evaluator = new FeatureEvaluator().IsEnabled;
@@ -19,6 +24,12 @@ namespace FeatureBee
         public static bool IsEnabled(string featureName)
         {
             return evaluator(featureName);
+        }
+
+        public static IEnumerable<string> EnabledFeatures()
+        {
+            var features = FeatureBeeBuilder.Context.FeatureRepository.GetFeatures();
+            return features.Where(feature => IsEnabled(feature.Name)).Select(feature => feature.Name);
         }
     }
 }
