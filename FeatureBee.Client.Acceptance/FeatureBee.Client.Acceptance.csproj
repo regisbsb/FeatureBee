@@ -94,7 +94,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Conditions.feature</DependentUpon>
     </Compile>
-    <Compile Include="Units\HttpHandlerRouting\AllFeaturesSpecs.cs" />
+    <Compile Include="Units\HttpHandlerRouting\FeaturesSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -5,9 +5,9 @@
     using Machine.Fakes;
     using Machine.Specifications;
 
-    public class AllFeaturesSpecs
+    public class FeaturesSpecs
     {
-        public class When_Opening_The_Url_For_All_Features : WithSubject<AllFeatures>
+        public class When_Opening_The_Url_For_All_Features : WithSubject<Features>
         {
             Because of = () => result = Subject.CanHandleRoute("/features");
 
@@ -16,7 +16,7 @@
             private static bool result;
         }
 
-        public class When_Opening_A_Different_Url : WithSubject<AllFeatures>
+        public class When_Opening_A_Different_Url : WithSubject<Features>
         {
             Because of = () => result = Subject.CanHandleRoute("/different");
 
