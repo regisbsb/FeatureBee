@@ -1,7 +1,10 @@
 // include Fake libs
 #r "tools/Fake.Core/tools/FakeLib.dll"
+#r "tools/Fake.IIS/tools/Fake.IIS.dll"
 
 open Fake
+open Fake.AssemblyInfoFile
+open Fake.IISExpress
 
 RestorePackages()
 
@@ -9,7 +12,7 @@ let authors = ["AutoScout24"]
 
 // project name and description
 let projectName = "FeatureBee"
-let projectDescription = "Release your new features without a release."
+let projectDescription = "Release your features without a release."
 let projectSummary = projectDescription
 
 
@@ -18,6 +21,11 @@ let buildDir        = "./build/"
 let testResultsDir  = "./testresults/"
 let deployDir       = "./deploy/"
 let packagingDir    = "./packaging/"
+let websiteDir      = "./build/_PublishedWebsites/"
+
+let project = "FeatureBee.Server"
+let hostName = "localhost"
+let port = 51100
 
 let releaseNotes =
     ReadFile "ReleaseNotes.md"
@@ -31,7 +39,6 @@ let buildMode = getBuildParamOrDefault "buildMode" "Release"
 Target "Clean" (fun _ -> 
     CleanDirs [buildDir; testResultsDir; deployDir; packagingDir]
 )
-open Fake.AssemblyInfoFile
 
 Target "SetVersion" (fun _ ->
     CreateCSharpAssemblyInfo "./SolutionInfo.cs"
@@ -85,14 +92,30 @@ Target "CreatePackage" (fun _ ->
             Publish = hasBuildParam "nugetkey" }) "featurebee.nuspec"
 )
 
-Target "AcceptanceTest" DoNothing // TODO: Needs to be done...
+Target "AcceptanceTest" (fun _ ->
+
+    let config = createConfigFile(project, 1, "iisexpress-template.config", websiteDir + "/" + project, hostName, port)
+    let webSiteProcess = HostWebsite id config 1
+
+    let result =
+        ExecProcess (fun info ->
+            info.FileName <- (buildDir @@ "FeatureBee.Server.Acceptance.exe")
+            info.WorkingDirectory <- buildDir
+        ) (System.TimeSpan.FromMinutes 5.)
+
+    ProcessHelper.killProcessById webSiteProcess.Id
+ 
+    if result <> 0 then failwith "Failed result from acceptance tests"
+)
 
 Target "Zip" (fun _ ->
     !! (buildDir + "/_PublishedWebsites/FeatureBee.Server/**/*.*") 
         -- "*.zip"
+        // TODO: Exclude database files
         |> Zip (buildDir + "/_PublishedWebsites/FeatureBee.Server/") (deployDir + "FeatureBee.Server." + version + ".zip")
 )
-Target "Default" DoNothing
+
+Target "All" DoNothing
 
 // Build order
 "Clean"
@@ -103,7 +126,7 @@ Target "Default" DoNothing
   ==> "AcceptanceTest"
   ==> "CreatePackage"
   ==> "Zip"
-  ==> "Default"
+  ==> "All"
 
 // start build
-RunTargetOrDefault "Default"
+RunTargetOrDefault "All"

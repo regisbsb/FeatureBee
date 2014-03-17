@@ -1,11 +1,12 @@
 @echo off
 
-".\.nuget\nuget.exe" "install" "FAKE.Core" "-OutputDirectory" "tools" "-ExcludeVersion" "-version" "2.2.0"
+".\.nuget\nuget.exe" "install" "FAKE.IIS" "-OutputDirectory" "tools" "-ExcludeVersion" "-version" "2.13.3"
+".\.nuget\nuget.exe" "install" "FAKE.Core" "-OutputDirectory" "tools" "-ExcludeVersion" "-version" "2.13.3"
 
 :Build
 cls
 
-SET TARGET="Default"
+SET TARGET="All"
 
 IF NOT [%1]==[] (set TARGET="%1")
 
@@ -16,7 +17,7 @@ IF NOT [%2]==[] (set BUILDMODE="%2")
 :: we need to break the dependency chain
 :: this ensures we do a build before running any tests
 
-if TARGET=="Default" (SET RunBuild=1)
+if TARGET=="All" (SET RunBuild=1)
 if TARGET=="RunUnitTests" (SET RunBuild=1)
 if TARGET=="RunIntegrationTests" (SET RunBuild=1)
 if TARGET=="CreatePackages" (SET RunBuild=1)
