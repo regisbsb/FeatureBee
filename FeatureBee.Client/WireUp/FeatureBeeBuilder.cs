@@ -63,14 +63,17 @@
 
         private static List<IConditionEvaluator> LoadConditionEvaluators()
         {
+            var conditionEvaluators = new List<IConditionEvaluator>();
+
             try
             {
+                Logger.Log(TraceEventType.Verbose, "Load condition evaluators");
                 var types = typeof(FeatureBeeBuilder).Assembly.GetTypes().Where(TypeIsConditionEvaluator).ToList();
-                return types.Select(_ =>
-                {
-                    var constructor = _.GetConstructor(Type.EmptyTypes);
-                    return constructor != null ? (IConditionEvaluator)constructor.Invoke(null) : null;
-                }).ToList();
+                conditionEvaluators = types.Select(_ =>
+                                                       {
+                                                           var constructor = _.GetConstructor(Type.EmptyTypes);
+                                                           return constructor != null ? (IConditionEvaluator)constructor.Invoke(null) : null;
+                                                       }).ToList();
             }
             catch (ReflectionTypeLoadException ex)
             {
@@ -90,9 +93,11 @@
                     sb.AppendLine();
                 }
                
-                throw new Exception("Conditions could not be loaded. See inner exception for details",
-                    new Exception(sb.ToString(), ex));
+                Logger.Log(TraceEventType.Error, "Conditions could not be loaded.\r\n" + sb);
             }
+
+            Logger.Log(TraceEventType.Verbose, "Found condition evaluators: " + string.Join(", ", conditionEvaluators.Select(x => x.Name)));
+            return conditionEvaluators;
         }
 
         private static bool TypeIsConditionEvaluator(Type type)

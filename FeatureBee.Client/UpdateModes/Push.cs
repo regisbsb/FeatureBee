@@ -8,12 +8,10 @@
     class Push : IFeatureRepository
     {
         private readonly string baseUrl;
+        private readonly ICanReceiveFeatureStates itemHub;
+        private readonly ICanReceiveFeatureStates editHub;
 
         private List<FeatureDto> features = new List<FeatureDto>();
-
-        private ICanReceiveFeatureStates itemHub;
-
-        private ICanReceiveFeatureStates editHub;
 
         public Push(string baseUrl)
         {

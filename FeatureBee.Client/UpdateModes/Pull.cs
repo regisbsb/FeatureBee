@@ -12,20 +12,20 @@ namespace FeatureBee.UpdateModes
     internal class Pull : IFeatureRepository
     {
         private static readonly ObjectCache Cache = new MemoryCache("FeatureBee");
-        private readonly Uri _featuresUri;
-        private readonly WebClient _webClient;
+        private readonly Uri featuresUri;
+        private readonly WebClient webClient;
 
         private static bool disposing = false;
 
         public Pull(string url, bool withRefresh = true)
         {
-            this._webClient = new WebClient();
+            webClient = new WebClient();
 
-            this._featuresUri = new Uri(string.Format("{0}/api/features", url));
+            featuresUri = new Uri(string.Format("{0}/api/features", url));
 
             if (withRefresh)
             {
-                this.RefreshCache(null);
+                RefreshCache(null);
             }
         }
 
@@ -38,12 +38,12 @@ namespace FeatureBee.UpdateModes
         {
             var expiresOn = DateTime.Now.AddSeconds(60);
 
-            var features = this.PullFeatures();
+            var features = PullFeatures();
 
             if (!disposing)
             {
                 Cache.Set(new CacheItem("FeatureBee.Features", features),
-                    new CacheItemPolicy { AbsoluteExpiration = expiresOn, RemovedCallback = this.RefreshCache });
+                    new CacheItemPolicy { AbsoluteExpiration = expiresOn, RemovedCallback = RefreshCache });
             }
         }
 
@@ -52,12 +52,14 @@ namespace FeatureBee.UpdateModes
             var features = new List<FeatureDto>();
             try
             {
-                var result = this._webClient.DownloadString(this._featuresUri);
-                features = this.Deserialize(result);
+                var result = webClient.DownloadString(featuresUri);
+                features = Deserialize(result);
+
+                Logger.Log(TraceEventType.Verbose, "Pulled features: " + result);
             }
             catch (Exception exception)
             {
-                Logger.Log(TraceEventType.Error, "Failed to load features from url {0}. Exception: {1}", _featuresUri, exception);
+                Logger.Log(TraceEventType.Error, "Failed to load features from url {0}. Exception: {1}", featuresUri, exception);
             }
 
             return features;
