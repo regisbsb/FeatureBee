@@ -29,7 +29,8 @@
 
             FeatureBeeBuilder
                 .ForWebApp(() => _httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object});
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object})
+                .Build();
         }
 
         [Given(@"I have feature with a condition evaluator that is never fullfilled")]
@@ -40,7 +41,8 @@
 
             FeatureBeeBuilder
                 .ForWebApp(() => _httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object});
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object})
+                .Build();
         }
 
         [Given(@"I have feature under test with a condition evaluator")]
@@ -53,7 +55,8 @@
 
             FeatureBeeBuilder
                 .ForWebApp(() => _httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object});
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object})
+                .Build();
         }
 
         [Given(@"the condition is (.*)")]
@@ -87,7 +90,8 @@
 
             FeatureBeeBuilder
                 .ForWebApp(() => _httpContextMock)
-                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object});
+                .Use(_featureRepositoryMock.Object, new List<IConditionEvaluator> {_conditionEvaluatorsMock.Object, _conditionEvaluatorsMock2.Object})
+                .Build();
         }
 
         [Given(@"the first condition evaluator returns (.*)")]

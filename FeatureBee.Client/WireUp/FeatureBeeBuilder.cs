@@ -15,10 +15,14 @@
 
     public class FeatureBeeBuilder
     {
+        private FeatureBeeConfiguration config;
+        private IFeatureRepository customFeatureRepository;
+        private List<IConditionEvaluator> customConditionEvaluators;
+
         private FeatureBeeBuilder(IFeatureBeeContext context)
         {
             Context = context;
-            Context.Evaluators = LoadConditionEvaluators();
+            config = new FeatureBeeConfiguration();
         }
 
         internal static IFeatureBeeContext Context { get; private set; }
@@ -38,27 +42,25 @@
             return new FeatureBeeBuilder(new WindowsApplicationContext());
         }
 
-        public void Use(IFeatureRepository featureRepository = null, List<IConditionEvaluator> conditionEvaluators = null)
+        public FeatureBeeBuilder Use(IFeatureRepository featureRepository = null, List<IConditionEvaluator> conditionEvaluators = null)
         {
-            if (featureRepository != null)
-            {
-                Context.FeatureRepository = featureRepository;
-            }
-
-            if (conditionEvaluators != null)
-            {
-                Context.Evaluators = conditionEvaluators;
-            }
+            customFeatureRepository = featureRepository;
+            customConditionEvaluators = conditionEvaluators;
+            return this;
         }
 
         public FeatureBeeBuilder UseConfig()
         {
-            var config = FeatureBeeConfiguration.GetSection();
-            Context.FeatureRepository = UpdateModeFactory.Get(config.Server.UpdateMode, config.Server.Url);
+            config = FeatureBeeConfiguration.GetSection();
+            return this;
+        }
 
+        public void Build()
+        {
+            Context.Evaluators = customConditionEvaluators ?? LoadConditionEvaluators();
+            Context.FeatureRepository = customFeatureRepository ?? UpdateModeFactory.Get(config.Server.UpdateMode, config.Server.Url);
             Context.ShowTrayIconOnPages = config.Tray.ShowTrayIconOnPages;
             Context.TrafficDistributionCookie = config.Settings.TrafficDistributionCookie;
-            return this;
         }
 
         private static List<IConditionEvaluator> LoadConditionEvaluators()
@@ -105,9 +107,10 @@
             return type.GetInterface(typeof (IConditionEvaluator).Name) != null && !type.IsAbstract;
         }
 
-        public void LogTo(Action<TraceEventType, string> action)
+        public FeatureBeeBuilder LogTo(Action<TraceEventType, string> action)
         {
             Logger.SetLogger(action);
+            return this;
         }
     }
 
@@ -122,12 +125,12 @@
 
         public static void Log(TraceEventType eventType, string message)
         {
-            logAction(eventType, message);
+            logAction(eventType, "[FeatureBee]: " + message);
         }
 
         public static void Log(TraceEventType eventType, string message, params object[] args)
         {
-            logAction(eventType, string.Format(message, args));
+            Log(eventType, string.Format(message, args));
         }
     }
 }

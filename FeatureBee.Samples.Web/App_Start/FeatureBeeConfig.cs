@@ -13,7 +13,8 @@
             FeatureBeeBuilder
                 .ForWebApp()
                 .UseConfig()
-                .LogTo(Logger());
+                .LogTo(Logger())
+                .Build();
         }
 
         private static Action<TraceEventType, string> Logger()

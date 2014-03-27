@@ -3,7 +3,7 @@ namespace FeatureBee.UpdateModes
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Net;
+    using System.Net.Http;
     using System.Runtime.Caching;
     using System.Web.Script.Serialization;
 
@@ -13,13 +13,13 @@ namespace FeatureBee.UpdateModes
     {
         private static readonly ObjectCache Cache = new MemoryCache("FeatureBee");
         private readonly Uri featuresUri;
-        private readonly WebClient webClient;
+        private readonly HttpClient httpClient;
 
         private static bool disposing = false;
 
         public Pull(string url, bool withRefresh = true)
         {
-            webClient = new WebClient();
+            httpClient = new HttpClient();
 
             featuresUri = new Uri(string.Format("{0}/api/features", url));
 
@@ -52,10 +52,22 @@ namespace FeatureBee.UpdateModes
             var features = new List<FeatureDto>();
             try
             {
-                var result = webClient.DownloadString(featuresUri);
-                features = Deserialize(result);
+                Logger.Log(TraceEventType.Verbose, "Pull features...");
 
-                Logger.Log(TraceEventType.Verbose, "Pulled features: " + result);
+                var task = httpClient.GetStringAsync(featuresUri);
+                task.Wait(10000);
+
+                if (task.IsCompleted)
+                {
+                    var result = task.Result;
+                    features = Deserialize(result);
+
+                    Logger.Log(TraceEventType.Verbose, "Pulled features: " + result);
+                }
+                else
+                {
+                    Logger.Log(TraceEventType.Verbose, "Task is not completed. Status: {0}, Exception: {1}", task.Status, task.Exception);
+                }
             }
             catch (Exception exception)
             {
