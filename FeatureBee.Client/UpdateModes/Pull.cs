@@ -66,7 +66,7 @@ namespace FeatureBee.UpdateModes
                 }
                 else
                 {
-                    Logger.Log(TraceEventType.Verbose, "Task is not completed. Status: {0}, Exception: {1}", task.Status, task.Exception);
+                    Logger.Log(TraceEventType.Error, "Pull features did not complete. Status: {0}, Exception: {1}", task.Status, task.Exception);
                 }
             }
             catch (Exception exception)
