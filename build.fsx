@@ -96,7 +96,7 @@ Target "AcceptanceTest" (fun _ ->
     let config = createConfigFile(project, 1, "iisexpress-template.config", websiteDir + "/" + project, hostName, port)
     let webSiteProcess = HostWebsite id config 1
 
-    System.Threading.Thread.Sleep 3000
+    System.Threading.Thread.Sleep 5000
 
     let result =
         ExecProcess (fun info ->
