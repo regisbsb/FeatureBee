@@ -1,7 +1,6 @@
 // include Fake libs
 #r "tools/Fake.Core/tools/FakeLib.dll"
 #r "tools/Fake.IIS/tools/Fake.IIS.dll"
-
 open Fake
 open Fake.AssemblyInfoFile
 open Fake.IISExpress
@@ -96,6 +95,8 @@ Target "AcceptanceTest" (fun _ ->
 
     let config = createConfigFile(project, 1, "iisexpress-template.config", websiteDir + "/" + project, hostName, port)
     let webSiteProcess = HostWebsite id config 1
+
+    System.Threading.Thread.Sleep 3000
 
     let result =
         ExecProcess (fun info ->
