@@ -7,11 +7,12 @@ namespace FeatureBee.UpdateModes
     using System.Runtime.Caching;
     using System.Web.Script.Serialization;
 
+    using FeatureBee.UpdateModes.FeatureCache;
     using FeatureBee.WireUp;
     
     internal class Pull : IFeatureRepository
     {
-        private static readonly ObjectCache Cache = new MemoryCache("FeatureBee");
+        private static readonly TimeLimitedInMemoryFeatureBeeCache MemCache = new TimeLimitedInMemoryFeatureBeeCache(TimeSpan.FromMinutes(1));
         private readonly Uri featuresUri;
         private readonly HttpClient httpClient;
 
@@ -25,25 +26,34 @@ namespace FeatureBee.UpdateModes
 
             if (withRefresh)
             {
-                RefreshCache(null);
+                RefreshCache();
             }
         }
 
         public List<FeatureDto> GetFeatures()
         {
-            return Cache.Get("FeatureBee.Features") as List<FeatureDto> ?? new List<FeatureDto>();
+            List<FeatureDto> featureDtos;
+            if (MemCache.TryGetValue("FeatureBee.Features", out featureDtos))
+            {
+                return featureDtos;
+            }
+
+            this.RefreshCache();
+            if (!MemCache.TryGetValue("FeatureBee.Features", out featureDtos))
+            {
+                throw new Exception("Features could not be pulled!");
+            }
+
+            return featureDtos;
         }
 
-        private void RefreshCache(CacheEntryRemovedArguments arguments)
+        private void RefreshCache()
         {
-            var expiresOn = DateTime.Now.AddSeconds(60);
-
             var features = PullFeatures();
 
             if (!disposing)
             {
-                Cache.Set(new CacheItem("FeatureBee.Features", features),
-                    new CacheItemPolicy { AbsoluteExpiration = expiresOn, RemovedCallback = RefreshCache });
+                MemCache.SetValue("FeatureBee.Features", features, this.RefreshCache);
             }
         }
 
@@ -85,8 +95,8 @@ namespace FeatureBee.UpdateModes
 
         public void Dispose()
         {
-            Cache.Remove("FeatureBee.Features");
             disposing = true;
+            MemCache.Dispose();
         }
     }
 }
