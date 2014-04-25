@@ -88,7 +88,9 @@ Target "CreatePackage" (fun _ ->
             Version = version
             ReleaseNotes = toLines releaseNotes.Notes
             AccessKey = getBuildParamOrDefault "nugetkey" ""
-            Publish = hasBuildParam "nugetkey" }) "featurebee.nuspec"
+            Publish = hasBuildParam "nugetkey"
+            Dependencies = ["SignalR.Client", GetPackageVersion "./packages/" "Microsoft.AspNet.SignalR.Client"]
+             }) "featurebee.nuspec"
 )
 
 Target "AcceptanceTest" (fun _ ->
