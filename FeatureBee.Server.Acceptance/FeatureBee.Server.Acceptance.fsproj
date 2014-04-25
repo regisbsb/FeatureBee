@@ -73,7 +73,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="FSharp.Core">
-      <HintPath>..\tools\FSharp.Core\4.3.1.0\FSharp.Core.dll</HintPath>
+      <HintPath>..\lib\fsi\FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json">
