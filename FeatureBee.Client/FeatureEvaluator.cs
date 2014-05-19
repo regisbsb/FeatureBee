@@ -12,7 +12,7 @@ namespace FeatureBee
         {
             if (FeatureBeeBuilder.Context == null)
             {
-                throw new InvalidOperationException("FeatureBeeConfing.Init needs to be called first!");
+                throw new InvalidOperationException("FeatureBeeBuilder.For[Web|WindowsService].Use[Config]() needs to be called first!");
             }
 
             var godModeFeatures = FeatureBeeBuilder.Context.GodModeFeatures;
