@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using FeatureBee.Evaluators;
+using FeatureBee.GodMode;
+
 
 namespace FeatureBee.WireUp
 {
@@ -30,34 +32,19 @@ namespace FeatureBee.WireUp
             get
             {
                 var request = _httpContextFunc.Invoke().Request;
+                var parser = new GodModeFeatureStateEvaluator();
+                var strategies = new List<ICanGetGodModeStates>() { 
+                    new GetGodModeFeaturesFromHttpHeader(parser), 
+                    new GetGodModeFeaturesFromCookies(parser) 
+                };
 
-                if (request.Cookies == null) 
+                var collection = new GodModeFeatureCollection();
+                foreach (var strategy in strategies)
                 {
-                    return new GodModeFeatureCollection();
+                    collection.Combine(strategy.GetGodModeFeatures(request));
                 }
 
-                var cookie = request.Cookies["FeatureBee"];
-                var value = cookie == null ? "" : HttpUtility.UrlDecode(cookie.Value) ?? "";
-
-                var godModeCollection = new GodModeFeatureCollection();
-                value.Split('#').ToList().ForEach(
-                    feature =>
-                    {
-                        var name = feature.Split('=').First();
-                        var state = feature.Split('=').Last();
-                        
-                        bool stateAsBool;
-                        bool.TryParse(state, out stateAsBool);
-                        if (godModeCollection.ContainsKey(name))
-                        {
-                            godModeCollection[name] = stateAsBool;
-                        }
-                        else
-                        {
-                            godModeCollection.Add(name, stateAsBool);
-                        }
-                    });
-                return godModeCollection;
+                return collection;
             }
         }
     }

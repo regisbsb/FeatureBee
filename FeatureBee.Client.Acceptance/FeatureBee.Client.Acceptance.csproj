@@ -98,6 +98,9 @@
       <DependentUpon>Conditions.feature</DependentUpon>
     </Compile>
     <Compile Include="Units\HttpHandlerRouting\FeaturesSpecs.cs" />
+    <Compile Include="Units\HttpHandlerRouting\GodMode\GodModeFromHttpCookieSpecs.cs" />
+    <Compile Include="Units\HttpHandlerRouting\GodMode\GodModeFromHttpHeaderSpecs.cs" />
+    <Compile Include="Units\HttpHandlerRouting\GodMode\GodModeParseSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
