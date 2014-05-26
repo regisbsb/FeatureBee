@@ -65,6 +65,7 @@
     <Compile Include="Evaluators\TrafficDistributionConditionEvaluator.cs" />
     <Compile Include="GodMode\GetGodModeFeaturesFromCookies.cs" />
     <Compile Include="GodMode\GetGodModeFeaturesFromHttpHeader.cs" />
+    <Compile Include="GodMode\GetGodModeFeaturesFromQueryString.cs" />
     <Compile Include="GodMode\ICanGetGodModeStates.cs" />
     <Compile Include="GodMode\ParseValues.cs" />
     <Compile Include="HttpHandlerRouting\Features.cs" />
