@@ -35,7 +35,8 @@ namespace FeatureBee.WireUp
                 var parser = new GodModeFeatureStateEvaluator();
                 var strategies = new List<ICanGetGodModeStates>() { 
                     new GetGodModeFeaturesFromHttpHeader(parser), 
-                    new GetGodModeFeaturesFromCookies(parser) 
+                    new GetGodModeFeaturesFromCookies(parser),
+                    new GetGodModeFeaturesFromQueryString(parser)
                 };
 
                 var collection = new GodModeFeatureCollection();
