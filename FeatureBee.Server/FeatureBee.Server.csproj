@@ -332,6 +332,7 @@
     <Content Include="Scripts\featureBee\featureController.js" />
     <Content Include="Scripts\featureBee\help.js" />
     <Content Include="Scripts\featureBee\jsonify.js" />
+    <Content Include="Scripts\featureBee\qr.js" />
     <Content Include="Scripts\featureBee\specs\conditionController.specs.js" />
     <Content Include="Scripts\featureBee\specs\featureController.specs.js" />
     <Content Include="Scripts\featureBee\specs\formify.specs.js" />
@@ -383,6 +384,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Scripts\featureBee\qr.js</ApplicationManifest>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
