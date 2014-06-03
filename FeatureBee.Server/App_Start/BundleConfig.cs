@@ -12,7 +12,9 @@ namespace FeatureBee.Server
                         "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/jquery.cookie.js",
                         "~/Scripts/jquery.unobtrusive*",
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*",
+                        "~/Scripts/qrcode.js",
+                        "~/Scripts/jquery.qrcode.js"));
 
             bundles.Add(
                 new ScriptBundle("~/bundles/board").Include(

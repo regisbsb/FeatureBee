@@ -52,6 +52,8 @@ $(function () {
                 open: function (event) {
                     $('.ui-dialog-buttonpane').find('button:contains("Cancel")').removeClass().addClass('btn btn-default');
                     $('.ui-dialog-buttonpane').find('button:contains("Save")').removeClass().addClass('btn btn-primary');
+
+                    $(this).qr();
                 },
                 buttons: [
                 {
