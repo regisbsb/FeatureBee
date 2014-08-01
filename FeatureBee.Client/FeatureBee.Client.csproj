@@ -60,6 +60,12 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="EnabledEvaluators\ConditionBasedEvaluator.cs" />
+    <Compile Include="EnabledEvaluators\GodModeEvaluator.cs" />
+    <Compile Include="EnabledEvaluators\IEvaluateFeatures.cs" />
+    <Compile Include="EnabledEvaluators\InDevelopmentEvaluator.cs" />
+    <Compile Include="EnabledEvaluators\IsReleasedEvalutor.cs" />
+    <Compile Include="EnabledEvaluators\NoSuchFeatureEvaluator.cs" />
     <Compile Include="FeatureEvaluator.cs" />
     <Compile Include="ConfigSection\FeatureBeeSettingsConfig.cs" />
     <Compile Include="Evaluators\TrafficDistributionConditionEvaluator.cs" />
