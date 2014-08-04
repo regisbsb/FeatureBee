@@ -35,7 +35,7 @@
         {
             Because of = () => isEnabled = Subject.IsEnabled("feature", new FeatureDto { State = "Released" });
 
-            It should_always_return_false = () => isEnabled.Should().BeTrue();
+            It should_always_return_true = () => isEnabled.Should().BeTrue();
         }
 
         private static bool isEnabled;

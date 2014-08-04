@@ -9,7 +9,7 @@ namespace FeatureBee.EnabledEvaluators
     {
         public bool CanEvalute(string name, FeatureDto feature)
         {
-            return true;
+            return feature != null && feature.State == "Under Test";
         }
 
         public bool IsEnabled(string name, FeatureDto feature)
