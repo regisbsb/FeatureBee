@@ -2,7 +2,7 @@ namespace FeatureBee.WireUp
 {
     using System.Collections.Generic;
 
-    using FeatureBee.Evaluators;
+    using FeatureBee.Conditions;
 
     internal class WindowsApplicationContext : IFeatureBeeContext
     {
