@@ -1,4 +1,4 @@
-namespace FeatureBee.EnabledEvaluators
+namespace FeatureBee.FeatureStates
 {
     using FeatureBee.WireUp;
 

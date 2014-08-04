@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Web;
 
-    using FeatureBee.EnabledEvaluators;
-    using FeatureBee.Evaluators;
+    using FeatureBee.Conditions;
+    using FeatureBee.FeatureStates;
     using FeatureBee.WireUp;
 
     using FluentAssertions;

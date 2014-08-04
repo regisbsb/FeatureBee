@@ -1,4 +1,4 @@
-namespace FeatureBee.EnabledEvaluators
+namespace FeatureBee.FeatureStates
 {
     using System;
     using System.Diagnostics;
@@ -6,13 +6,23 @@ namespace FeatureBee.EnabledEvaluators
 
     using FeatureBee.WireUp;
 
-    class GodModeEvaluator : IEvaluateFeatures
+    public class GodModeEvaluator : IEvaluateFeatures
     {
         private readonly GodModeFeatureCollection godModeFeatures;
 
         public GodModeEvaluator()
+            : this(FeatureBeeBuilder.Context.GodModeFeatures)
         {
-            this.godModeFeatures = FeatureBeeBuilder.Context.GodModeFeatures;
+        }
+
+        public GodModeEvaluator(GodModeFeatureCollection godModeFeatures)
+        {
+            this.godModeFeatures = godModeFeatures ?? new GodModeFeatureCollection();
+        }
+
+        public void AddGodModeFeatures(GodModeFeatureCollection godModeFeatureCollection)
+        {
+            this.godModeFeatures.Combine(godModeFeatureCollection);
         }
 
         public bool CanEvalute(string featureName, FeatureDto feature)

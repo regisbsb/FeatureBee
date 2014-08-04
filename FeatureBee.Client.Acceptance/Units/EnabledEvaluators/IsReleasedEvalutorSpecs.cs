@@ -1,6 +1,6 @@
 ﻿namespace FeatureBee.Acceptance.Units.EnabledEvaluators
 {
-    using FeatureBee.EnabledEvaluators;
+    using FeatureBee.FeatureStates;
     using FeatureBee.WireUp;
 
     using FluentAssertions;

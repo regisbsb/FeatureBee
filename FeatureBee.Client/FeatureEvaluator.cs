@@ -4,7 +4,7 @@ namespace FeatureBee
     using System.Collections.Generic;
     using System.Linq;
 
-    using FeatureBee.EnabledEvaluators;
+    using FeatureBee.FeatureStates;
     using FeatureBee.WireUp;
 
     public class FeatureEvaluator

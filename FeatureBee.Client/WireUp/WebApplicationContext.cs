@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using FeatureBee.Evaluators;
+
 using FeatureBee.GodMode;
 
 
 namespace FeatureBee.WireUp
 {
+    using FeatureBee.Conditions;
+
     internal class WebApplicationContext : IFeatureBeeContext
     {
         private readonly Func<HttpContextBase> _httpContextFunc;
