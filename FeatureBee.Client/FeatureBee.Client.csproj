@@ -60,6 +60,7 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="Conditions\PublicIPConditionEvaluator.cs" />
     <Compile Include="FeatureStates\ConditionBasedEvaluator.cs" />
     <Compile Include="FeatureStates\GodModeEvaluator.cs" />
     <Compile Include="FeatureStates\IEvaluateFeatures.cs" />
