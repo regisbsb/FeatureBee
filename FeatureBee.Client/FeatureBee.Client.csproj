@@ -78,6 +78,7 @@
     <Compile Include="HttpHandlerRouting\Features.cs" />
     <Compile Include="HttpHandlerRouting\IHandleARoute.cs" />
     <Compile Include="HttpHandlerRouting\NoRouteFound.cs" />
+    <Compile Include="JavascriptClient.cs" />
     <Compile Include="UpdateModes\FeatureCache\InMemoryCache.cs" />
     <Compile Include="UpdateModes\FeatureCache\TimeLimitedInMemoryCache.cs" />
     <Compile Include="UpdateModes\FeatureCache\TimeLimitedInMemoryFeatureBeeCache.cs" />
