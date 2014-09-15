@@ -9,7 +9,11 @@ namespace FeatureBee.WireUp
         public WindowsApplicationContext()
         {
             GodModeFeatures = new GodModeFeatureCollection(); // Not supported, yet
-            IsDebugMode = false; // Not supported, yet
+#if DEBUG
+            IsDebugMode = true;
+#else
+            IsDebugMode = false;
+#endif
         }
 
         public List<IConditionEvaluator> Evaluators { get; set; }
