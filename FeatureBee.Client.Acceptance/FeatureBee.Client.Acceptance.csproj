@@ -103,6 +103,7 @@
     <Compile Include="Units\EnabledEvaluators\IsReleasedEvalutorSpecs.cs" />
     <Compile Include="Units\EnabledEvaluators\NoSuchFeatureEvalutorSpecs.cs" />
     <Compile Include="Units\HttpHandlerRouting\FeaturesSpecs.cs" />
+    <Compile Include="Units\HttpHandlerRouting\GodMode\FeatureSerializerSpecs.cs" />
     <Compile Include="Units\HttpHandlerRouting\GodMode\GodModeFromHttpCookieSpecs.cs" />
     <Compile Include="Units\HttpHandlerRouting\GodMode\GodModeFromHttpHeaderSpecs.cs" />
     <Compile Include="Units\HttpHandlerRouting\GodMode\GodModeFromQueryStringSpecs.cs" />

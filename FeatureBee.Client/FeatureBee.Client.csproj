@@ -75,6 +75,7 @@
     <Compile Include="GodMode\GetGodModeFeaturesFromQueryString.cs" />
     <Compile Include="GodMode\ICanGetGodModeStates.cs" />
     <Compile Include="GodMode\ParseValues.cs" />
+    <Compile Include="GodMode\FeatureSerializer.cs" />
     <Compile Include="HttpHandlerRouting\Features.cs" />
     <Compile Include="HttpHandlerRouting\IHandleARoute.cs" />
     <Compile Include="HttpHandlerRouting\NoRouteFound.cs" />

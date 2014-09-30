@@ -33,7 +33,9 @@ namespace FeatureBee.WireUp
         {
             get
             {
-                var request = _httpContextFunc.Invoke().Request;
+                var httpContext = _httpContextFunc.Invoke();
+                var request = httpContext.Request;
+                var response = httpContext.Response;
                 var parser = new GodModeFeatureStateEvaluator();
                 var strategies = new List<ICanGetGodModeStates>() { 
                     new GetGodModeFeaturesFromHttpHeader(parser), 
@@ -46,6 +48,8 @@ namespace FeatureBee.WireUp
                 {
                     collection.Combine(strategy.GetGodModeFeatures(request));
                 }
+
+                FeatureSerializer.SaveInCookie(httpContext, collection);
 
                 return collection;
             }
