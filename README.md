@@ -1,7 +1,7 @@
 FeatureBee
 ==========
 
-FeatureBee helps you to release features without fears and pains. It´s the piece of puzzle which makes your Continuous Deplyoment perfect. FeatureBee decouples code releases from feature releases and makes it easy to rollout new features step-by-step.
+FeatureBee helps you to release features without fears and pains. It´s the piece of puzzle which makes your Continuous Deployment perfect. FeatureBee decouples code releases from feature releases and makes it easy to rollout new features step-by-step.
 
 For more details read [here](http://pgarbe.github.io/blog/2014/01/16/the-fear-of-new-features/) and [here](http://www.codeproject.com/Articles/727298/Getting-your-features-out)
 
@@ -12,7 +12,7 @@ Contact us if you want to help.
 
 ## FeatureBee Server 
 
-The Server distributes the feature state to all registered clients, and is the ui for however is editing the feature state.
+The Server distributes the feature state to all registered clients, and is the UI for however is editing the feature state.
 
 ![FeatureBee Server](https://github.com/AutoScout24/FeatureBee/raw/master/documentation/images/Feature%20Bee%20-%20Server.png)
 
